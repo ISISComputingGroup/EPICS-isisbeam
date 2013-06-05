@@ -52,9 +52,11 @@ isisbeamDriver::isisbeamDriver(const char *portName)
 	epicsThreadOnce(&onceId, initCOM, NULL);
 
     const char *functionName = "isisbeamDriver";
-	createParam(P_BeamString, asynParamFloat64, &P_Beam);
 	
-
+	createParam(P_BeamTS1String, asynParamFloat64, &P_BeamTS1);
+	createParam(P_BeamTS2String, asynParamFloat64, &P_BeamTS2);
+	createParam(P_BeamEPB1String, asynParamFloat64, &P_BeamEPB1);
+	
     // Create the thread for background tasks (not used at present, could be used for I/O intr scanning) 
     if (epicsThreadCreate("isisbeamPoller",
                           epicsThreadPriorityMedium,
@@ -83,7 +85,7 @@ void isisbeamDriver::pollerThread()
 	char* tmp;
 	struct tm* pstm;
 	time_t timer;
-	double beamt;
+	double beamts1, beamts2, beamepb1;
 	static char time_buffer[128];
 	while(true)
 	{
@@ -106,12 +108,14 @@ void isisbeamDriver::pollerThread()
 			timer = atol(tmp);
 			pstm = localtime(&timer);
 			free(tmp);
-			tmp = xml_parse(buffer, "BEAMT");
-			beamt = atof(tmp);
-			free(tmp);
 			strftime(time_buffer, sizeof(time_buffer), "%d-%b-%Y %H:%M:%S", pstm);
+			tmp = xml_parse(buffer, "BEAMT"); beamts1 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "BEAMT2"); beamts2 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "BEAME1"); beamepb1 = atof(tmp); free(tmp);
 			lock();
-			setDoubleParam(P_Beam, beamt);
+			setDoubleParam(P_BeamTS1, beamts1);
+			setDoubleParam(P_BeamTS2, beamts2);
+			setDoubleParam(P_BeamEPB1, beamepb1);
 			callParamCallbacks();
 			unlock();
 		}

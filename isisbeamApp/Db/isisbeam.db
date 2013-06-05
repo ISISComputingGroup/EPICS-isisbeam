@@ -1,7 +1,23 @@
-record(ao, "$(P)BEAM")
+record(ao, "$(P)BEAM:TS1")
 {
    field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn(isisbeam,0,0)BEAM")
+   field(OUT,  "@asyn(isisbeam,0,0)BEAMTS1")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)BEAM:TS2")
+{
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn(isisbeam,0,0)BEAMTS2")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)BEAM:EPB1")
+{
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn(isisbeam,0,0)BEAMEPB1")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 }
