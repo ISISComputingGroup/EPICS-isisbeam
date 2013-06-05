@@ -17,7 +17,7 @@ DBD += isisbeam.dbd
 # Compile and add the code to the support library
 isisbeamSupport_SRCS += isisbeamDriver.cpp 1st_nd_lib.c
 
-isisbeamSupport_LIBS += asyn tinyxpath tinyxml
+isisbeamSupport_LIBS += asyn TinyXPath TinyXML
 isisbeamSupport_LIBS += $(EPICS_BASE_IOC_LIBS)
 isisbeamSupport_SYS_LIBS_WIN32 += ws2_32
 
