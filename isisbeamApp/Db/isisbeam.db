@@ -1,0 +1,7 @@
+record(ao, "$(P)BEAM")
+{
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn(isisbeam,0,0)BEAM")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}

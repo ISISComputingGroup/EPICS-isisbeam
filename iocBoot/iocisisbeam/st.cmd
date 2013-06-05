@@ -11,8 +11,11 @@ cd ${TOP}
 dbLoadDatabase "dbd/isisbeam.dbd"
 isisbeam_registerRecordDeviceDriver pdbbase
 
+## configure IOC
+isisbeamConfigure("isisbeam")
+
 ## Load record instances
-#dbLoadRecords("db/xxx.db","user=faa59Host")
+dbLoadRecords("$(TOP)/db/isisbeam.db","P=faa59Host")
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit

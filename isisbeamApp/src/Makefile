@@ -6,6 +6,23 @@ include $(TOP)/configure/CONFIG
 #=============================
 
 #=============================
+# Build the IOC support library
+
+LIBRARY_IOC += isisbeamSupport
+
+#pdb += isisbeam.pdb
+
+DBD += isisbeam.dbd
+
+# Compile and add the code to the support library
+isisbeamSupport_SRCS += isisbeamDriver.cpp 1st_nd_lib.c
+
+isisbeamSupport_LIBS += asyn tinyxpath tinyxml
+isisbeamSupport_LIBS += $(EPICS_BASE_IOC_LIBS)
+isisbeamSupport_SYS_LIBS_WIN32 += ws2_32
+
+
+#=============================
 # Build the IOC application
 
 PROD_IOC = isisbeam
@@ -19,7 +36,8 @@ isisbeam_DBD += base.dbd
 #isisbeam_DBD += xxx.dbd
 
 # Add all the support libraries needed by this IOC
-#isisbeam_LIBS += xxx
+isisbeam_LIBS += isisbeamSupport asyn
+#isisbeam_SYS_LIBS_WIN32 += msxml2
 
 # isisbeam_registerRecordDeviceDriver.cpp derives from isisbeam.dbd
 isisbeam_SRCS += isisbeam_registerRecordDeviceDriver.cpp
