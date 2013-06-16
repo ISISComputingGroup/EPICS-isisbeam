@@ -1,4 +1,4 @@
-record(ai, "$(P)BEAM:TS1")
+record(ai, "$(P)AC:TS1:BEAM:CURR")
 {
    field(DTYP, "asynFloat64")
    field(INP,  "@asyn(isisbeam,0,0)BEAMTS1")
@@ -6,7 +6,7 @@ record(ai, "$(P)BEAM:TS1")
    field(SCAN, "I/O Intr")
 }
 
-record(ai, "$(P)BEAM:TS2")
+record(ai, "$(P)AC:TS2:BEAM:CURR")
 {
    field(DTYP, "asynFloat64")
    field(INP,  "@asyn(isisbeam,0,0)BEAMTS2")
@@ -14,7 +14,23 @@ record(ai, "$(P)BEAM:TS2")
    field(SCAN, "I/O Intr")
 }
 
-record(ai, "$(P)BEAM:EPB1")
+record(ai, "$(P)AC:EPB1:BEAM:CURR")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)BEAMEPB1")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)TG:TS1:MOD:METH:TEMP")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)BEAMEPB1")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)TG:TS1:MOD:HDGN:TEMP")
 {
    field(DTYP, "asynFloat64")
    field(INP,  "@asyn(isisbeam,0,0)BEAMEPB1")
