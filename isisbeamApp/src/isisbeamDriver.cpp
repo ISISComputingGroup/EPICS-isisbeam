@@ -56,6 +56,8 @@ isisbeamDriver::isisbeamDriver(const char *portName)
 	createParam(P_BeamTS1String, asynParamFloat64, &P_BeamTS1);
 	createParam(P_BeamTS2String, asynParamFloat64, &P_BeamTS2);
 	createParam(P_BeamEPB1String, asynParamFloat64, &P_BeamEPB1);
+	createParam(P_MethaneTS1String, asynParamFloat64, &P_MethaneTS1);
+	createParam(P_HydrogenTS1String, asynParamFloat64, &P_HydrogenTS1);
 	
     // Create the thread for background tasks (not used at present, could be used for I/O intr scanning) 
     if (epicsThreadCreate("isisbeamPoller",
@@ -66,6 +68,12 @@ isisbeamDriver::isisbeamDriver(const char *portName)
         printf("%s:%s: epicsThreadCreate failure\n", driverName, functionName);
         return;
     }
+}
+
+asynStatus isisbeamDriver::readFloat64(asynUser *pasynUser, epicsFloat64 *value)
+{
+//    pasynUser->timeStamp = m_timestamp;
+    return asynPortDriver::readFloat64(pasynUser, value);
 }
 
 void isisbeamDriver::pollerThreadC(void* arg)
@@ -85,7 +93,7 @@ void isisbeamDriver::pollerThread()
 	char* tmp;
 	struct tm* pstm;
 	time_t timer;
-	double beamts1, beamts2, beamepb1;
+	double beamts1, beamts2, beamepb1, mtempts1, htempts1;
 	static char time_buffer[128];
 	while(true)
 	{
@@ -97,7 +105,7 @@ void isisbeamDriver::pollerThread()
 			tmp = xml_parse(buffer, "ISISBEAM");
 			if (tmp == NULL)
 			{
-				continue; // ignore ISISBEAM2 etc packets
+				continue; // ignore ISISBEAM2 etc packets for moment
 			}
 			free(tmp);
 			tmp = xml_parse(buffer, "TIME");
@@ -112,10 +120,15 @@ void isisbeamDriver::pollerThread()
 			tmp = xml_parse(buffer, "BEAMT"); beamts1 = atof(tmp); free(tmp);
 			tmp = xml_parse(buffer, "BEAMT2"); beamts2 = atof(tmp); free(tmp);
 			tmp = xml_parse(buffer, "BEAME1"); beamepb1 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "MTEMP"); mtempts1 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "HTEMP"); htempts1 = atof(tmp); free(tmp);
 			lock();
+			epicsTimeFromTime_t(&m_timestamp, timer);
 			setDoubleParam(P_BeamTS1, beamts1);
 			setDoubleParam(P_BeamTS2, beamts2);
 			setDoubleParam(P_BeamEPB1, beamepb1);
+			setDoubleParam(P_MethaneTS1, mtempts1);
+			setDoubleParam(P_HydrogenTS1, htempts1);
 			callParamCallbacks();
 			unlock();
 		}
