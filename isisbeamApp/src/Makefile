@@ -12,7 +12,7 @@ LIBRARY_IOC += isisbeamSupport
 
 #pdb += isisbeam.pdb
 
-DBD += isisbeam.dbd
+DBD += isisbeam.dbd 
 
 # Compile and add the code to the support library
 isisbeamSupport_SRCS += isisbeamDriver.cpp 1st_nd_lib.c
@@ -33,10 +33,10 @@ DBD += isisbeam.dbd
 isisbeam_DBD += base.dbd
 
 # Include dbd files from all support applications:
-#isisbeam_DBD += xxx.dbd
+isisbeam_DBD += devIocStats.dbd
 
 # Add all the support libraries needed by this IOC
-isisbeam_LIBS += isisbeamSupport asyn
+isisbeam_LIBS += devIocStats isisbeamSupport asyn 
 #isisbeam_SYS_LIBS_WIN32 += msxml2
 
 # isisbeam_registerRecordDeviceDriver.cpp derives from isisbeam.dbd
