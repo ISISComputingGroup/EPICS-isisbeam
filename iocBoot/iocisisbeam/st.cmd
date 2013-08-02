@@ -5,6 +5,9 @@
 
 < envPaths
 
+epicsEnvSet "IOCNAME" "$(P=$(MYPVPREFIX))ISIS"
+epicsEnvSet "IOCSTATS_DB" "$(DEVIOCSTATS)/db/iocAdminSoft.db"
+
 cd ${TOP}
 
 ## Register all support components
@@ -15,7 +18,8 @@ isisbeam_registerRecordDeviceDriver pdbbase
 isisbeamConfigure("isisbeam")
 
 ## Load record instances
-dbLoadRecords("$(TOP)/db/isisbeam.db","P=$(MYPVPREFIX)")
+dbLoadRecords("$(TOP)/db/isisbeam.db","P=$(IOCNAME):")
+dbLoadRecords("$(IOCSTATS_DB)","IOC=$(IOCNAME)")
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit
