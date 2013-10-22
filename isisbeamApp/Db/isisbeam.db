@@ -4,6 +4,7 @@ record(ai, "$(P)AC:TS1:BEAM:CURR")
    field(INP,  "@asyn(isisbeam,0,0)BEAMTS1")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+   field(FLNK, "$(P)AC:TS1:BEAM:ON")
 #   field(TSE, -2)
 }
 
@@ -13,6 +14,7 @@ record(ai, "$(P)AC:TS2:BEAM:CURR")
    field(INP,  "@asyn(isisbeam,0,0)BEAMTS2")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+   field(FLNK, "$(P)AC:TS2:BEAM:ON")
 #   field(TSE, -2)
 }
 
@@ -41,4 +43,182 @@ record(ai, "$(P)TG:TS1:MOD:HDGN:TEMP")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 #   field(TSE, -2)
+}
+
+#Additions during story 227
+
+record(ai, "$(P)AC:SYNCH:BEAM:CURR")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)BEAMSYNCH")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)AC:SYNCH:FREQ")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)FREQSYNCH")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)AC:TS1:BEAM:FREQ")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)FREQSYNCH")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)AC:TS1:BEAM:TOTAL")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)TOTALTS1")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)AC:TS2:BEAM:FREQ")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)FREQTS2")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)AC:TS2:BEAM:TOTAL")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)TOTALTS2")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)AC:TS2:DMOD:METH:TEMP")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)DEMETHTS2")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)AC:TS2:MOD:METH:TEMP")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)METHTS2")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)AC:TS2:MOD:HDGN:TEMP")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)HDGNTS2")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+#Need to sort out the parsing of the ISISBEAM2 part of the XML
+#record(ai, "$(P)AC:TS2:DMOD:RTIME")
+#{
+#   field(DTYP, "asynFloat64")
+#   field(INP,  "@asyn(isisbeam,0,0)DRUNTS2")
+#   field(PREC, "3")
+#   field(SCAN, "I/O Intr")
+#}
+#
+#record(ai, "$(P)AC:TS2:DMOD:RTLIM")
+#{
+#   field(DTYP, "asynFloat64")
+#   field(INP,  "@asyn(isisbeam,0,0)DRLIMTS2")
+#   field(PREC, "3")
+#   field(SCAN, "I/O Intr")
+#}
+#
+#record(ai, "$(P)AC:TS2:DMOD:BEAM")
+#{
+#   field(DTYP, "asynFloat64")
+#   field(INP,  "@asyn(isisbeam,0,0)BEAMDMODTS2")
+#   field(PREC, "3")
+#   field(SCAN, "I/O Intr")
+#}
+
+record(bi, "$(P)AC:TS1:BEAM:ON")
+{
+	field(DTYP, "Soft Channel")
+	field(INP, "$(P)AC:TS1:BEAM:ONCALC PP")
+	field(ZNAM, "OFF")
+	field(ONAM, "ON")
+}
+
+record(calc, "$(P)AC:TS1:BEAM:ONCALC")
+{
+	field(INPA, "$(P)AC:TS1:BEAM:CURR NPP")
+	field(CALC, "A>0?1:0")
+}
+
+record(bi, "$(P)AC:TS2:BEAM:ON")
+{
+	field(DTYP, "Soft Channel")
+	field(INP, "$(P)AC:TS2:BEAM:ONCALC PP")
+	field(ZNAM, "OFF")
+	field(ONAM, "ON")
+}
+
+record(calc, "$(P)AC:TS2:BEAM:ONCALC")
+{
+	field(INPA, "$(P)AC:TS2:BEAM:CURR NPP")
+	field(CALC, "A>0?1:0")
+}
+
+record(ai, "$(P)AC:MUON:KICKR")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn(isisbeam,0,0)MUKICK")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+   field(FLNK, "$(P)AC:MUON:KICKR:ON")
+}
+
+record(bi, "$(P)AC:MUON:KICKR:ON")
+{
+	field(DTYP, "Soft Channel")
+	field(INP, "$(P)AC:MUON:KICKR:ONCALC PP")
+	field(ZNAM, "OFF")
+	field(ONAM, "ON")
+}
+
+record(calc, "$(P)AC:MUON:KICKR:ONCALC")
+{
+	field(INPA, "$(P)AC:MUON:KICKR NPP")
+	field(CALC, "A#0?1:0")
+}
+
+#Trying to sort out the timestamps
+record(stringin, "$(P)AC:TS1:TIME:ON")
+{
+   field(DTYP, "Soft Timestamp")
+   field(INP,  "$(P)TEST:ONTS1")
+   #field(PREC, "3")
+   field(SCAN, "1 second")
+}
+
+#@asyn(isisbeam,0,0)ONTS1
+
+record(ai, "$(P)TEST:ONTS1")
+{
+   field(DTYP, "asynOctet")
+   field(INP,  "@asyn(isisbeam,0,0)ONTS1")
+   #field(PREC, "3")
+   field(SCAN, "I/O Intr")
+   field(SCAN, "1 second")
+}
+
+record(stringin, "$(P)TEST:TOD")
+{
+    field(DESC, "Current time and date")
+    field(DTYP, "Soft Timestamp")
+    field(SCAN, "1 second")
+    field(INP, "@%d/%m/%Y %H:%M:%S")
 }

@@ -58,6 +58,19 @@ isisbeamDriver::isisbeamDriver(const char *portName)
 	createParam(P_BeamEPB1String, asynParamFloat64, &P_BeamEPB1);
 	createParam(P_MethaneTS1String, asynParamFloat64, &P_MethaneTS1);
 	createParam(P_HydrogenTS1String, asynParamFloat64, &P_HydrogenTS1);
+	createParam(P_BeamSynchString, asynParamFloat64, &P_BeamSynch);
+	createParam(P_FreqSynchString, asynParamFloat64, &P_FreqSynch);
+	createParam(P_TotalTS1String, asynParamFloat64, &P_TotalTS1);
+	createParam(P_FreqTS2String, asynParamFloat64, &P_FreqTS2);
+	createParam(P_TotalTS2String, asynParamFloat64, &P_TotalTS2);
+	createParam(P_DeMethaneTS2String, asynParamFloat64, &P_DeMethaneTS2);
+	createParam(P_MethaneTS2String, asynParamFloat64, &P_MethaneTS2);
+	createParam(P_HydrogenTS2String, asynParamFloat64, &P_HydrogenTS2);
+	createParam(P_MuonKickString, asynParamFloat64, &P_MuonKick);
+	//createParam(P_DmodRunTS2String, asynParamFloat64, &P_DmodRunTS2);
+	//createParam(P_DmodRunLimTS2String, asynParamFloat64, &P_DmodRunLimTS2);
+	//createParam(P_BeamDmodTS2String, asynParamFloat64, &P_BeamDmodTS2);
+	createParam(P_OnTS1String, asynParamOctet, &P_OnTS1);
 	
     // Create the thread for background tasks (not used at present, could be used for I/O intr scanning) 
     if (epicsThreadCreate("isisbeamPoller",
@@ -93,7 +106,8 @@ void isisbeamDriver::pollerThread()
 	char* tmp;
 	struct tm* pstm;
 	time_t timer;
-	double beamts1, beamts2, beamepb1, mtempts1, htempts1;
+	double beamts1, beamts2, beamepb1, mtempts1, htempts1, beamsynch, freqsynch, totalts1, freqts2, totalts2, demethanets2, methanets2, hydrogents2, dmodrunts2, dmodrunlimts2, beamdmodts2, muonkick;
+	const char* onts1;
 	static char time_buffer[128];
 	while(true)
 	{
@@ -122,6 +136,19 @@ void isisbeamDriver::pollerThread()
 			tmp = xml_parse(buffer, "BEAME1"); beamepb1 = atof(tmp); free(tmp);
 			tmp = xml_parse(buffer, "MTEMP"); mtempts1 = atof(tmp); free(tmp);
 			tmp = xml_parse(buffer, "HTEMP"); htempts1 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "BEAMS"); beamsynch = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "REPR"); freqsynch = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "TS1_TOTAL"); totalts1 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "REPR2"); freqts2 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "TS2_TOTAL"); totalts2 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "T2MTEMP1"); demethanets2 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "T2MTEMP2"); methanets2 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "T2HTEMP1"); hydrogents2 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "MUONKICKER"); muonkick = atof(tmp); free(tmp);
+			//tmp = xml_parse(buffer, "DMOD_RUNTIME"); dmodrunts2 = atof(tmp); free(tmp);
+			//tmp = xml_parse(buffer, "DMOD_RUNTIME_LIM"); dmodrunlimts2 = atof(tmp); free(tmp);
+			//tmp = xml_parse(buffer, "DMOD_UABEAM"); beamdmodts2 = atof(tmp); free(tmp);
+			tmp = xml_parse(buffer, "TS1ON"); onts1 = tmp; free(tmp);
 			lock();
 			epicsTimeFromTime_t(&m_timestamp, timer);
 			setDoubleParam(P_BeamTS1, beamts1);
@@ -129,6 +156,19 @@ void isisbeamDriver::pollerThread()
 			setDoubleParam(P_BeamEPB1, beamepb1);
 			setDoubleParam(P_MethaneTS1, mtempts1);
 			setDoubleParam(P_HydrogenTS1, htempts1);
+			setDoubleParam(P_BeamSynch, beamsynch);
+			setDoubleParam(P_FreqSynch, freqsynch);
+			setDoubleParam(P_TotalTS1, totalts1);
+			setDoubleParam(P_FreqTS2, freqts2);
+			setDoubleParam(P_TotalTS2, totalts2);
+			setDoubleParam(P_DeMethaneTS2, demethanets2);
+			setDoubleParam(P_MethaneTS2, methanets2);
+			setDoubleParam(P_HydrogenTS2, hydrogents2);
+			setDoubleParam(P_MuonKick, muonkick);
+			//setDoubleParam(P_DmodRunTS2, dmodrunts2);
+			//setDoubleParam(P_DmodRunLimTS2, dmodrunlimts2);
+			//setDoubleParam(P_BeamDmodTS2, beamdmodts2);
+			setStringParam(P_OnTS1, onts1);
 			callParamCallbacks();
 			unlock();
 		}
