@@ -43,10 +43,10 @@ private:
 	int P_MethaneTS2; // double
 	int P_HydrogenTS2; // double
 	int P_MuonKick; // double
-	//int P_DmodRunTS2; // double
-	//int P_DmodRunLimTS2; // double
-	//int P_BeamDmodTS2; // double
-	int P_OnTS1; //string
+	int P_DmodRunTS2; // double
+	int P_DmodRunLimTS2; // double
+	int P_BeamDmodTS2; // double
+	int P_DmodAnnLowTS2; // double
     int P_BeamEPB1; // double
 	
 	
@@ -73,9 +73,9 @@ private:
 #define P_MethaneTS2String "METHTS2"
 #define P_HydrogenTS2String "HDGNTS2"
 #define P_MuonKickString "MUKICK"
-//#define P_DmodRunTS2String "DRUNTS2"
-//#define P_DmodRunLimTS2String "DRLIMTS2"
-//#define P_BeamDmodTS2String "BEAMDMODTS2"
-#define P_OnTS1String "ONTS1"
+#define P_DmodRunTS2String "DRUNTS2"
+#define P_DmodRunLimTS2String "DRLIMTS2"
+#define P_BeamDmodTS2String "BEAMDMODTS2"
+#define P_DmodAnnLowTS2String "DMODANNLOWTS2"
 
 #endif /* ISISBEAMDRIVER_H */

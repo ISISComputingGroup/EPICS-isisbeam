@@ -67,10 +67,10 @@ isisbeamDriver::isisbeamDriver(const char *portName)
 	createParam(P_MethaneTS2String, asynParamFloat64, &P_MethaneTS2);
 	createParam(P_HydrogenTS2String, asynParamFloat64, &P_HydrogenTS2);
 	createParam(P_MuonKickString, asynParamFloat64, &P_MuonKick);
-	//createParam(P_DmodRunTS2String, asynParamFloat64, &P_DmodRunTS2);
-	//createParam(P_DmodRunLimTS2String, asynParamFloat64, &P_DmodRunLimTS2);
-	//createParam(P_BeamDmodTS2String, asynParamFloat64, &P_BeamDmodTS2);
-	createParam(P_OnTS1String, asynParamOctet, &P_OnTS1);
+	createParam(P_DmodRunTS2String, asynParamFloat64, &P_DmodRunTS2);
+	createParam(P_DmodRunLimTS2String, asynParamFloat64, &P_DmodRunLimTS2);
+	createParam(P_BeamDmodTS2String, asynParamFloat64, &P_BeamDmodTS2);
+	createParam(P_DmodAnnLowTS2String, asynParamFloat64, &P_DmodAnnLowTS2);
 	
     // Create the thread for background tasks (not used at present, could be used for I/O intr scanning) 
     if (epicsThreadCreate("isisbeamPoller",
@@ -106,8 +106,7 @@ void isisbeamDriver::pollerThread()
 	char* tmp;
 	struct tm* pstm;
 	time_t timer;
-	double beamts1, beamts2, beamepb1, mtempts1, htempts1, beamsynch, freqsynch, totalts1, freqts2, totalts2, demethanets2, methanets2, hydrogents2, dmodrunts2, dmodrunlimts2, beamdmodts2, muonkick;
-	const char* onts1;
+	double beamts1, beamts2, beamepb1, mtempts1, htempts1, beamsynch, freqsynch, totalts1, freqts2, totalts2, demethanets2, methanets2, hydrogents2, dmodrunts2, dmodrunlimts2, beamdmodts2, muonkick, dmodannlowts2;
 	static char time_buffer[128];
 	while(true)
 	{
@@ -119,58 +118,79 @@ void isisbeamDriver::pollerThread()
 			tmp = xml_parse(buffer, "ISISBEAM");
 			if (tmp == NULL)
 			{
-				continue; // ignore ISISBEAM2 etc packets for moment
+				tmp = xml_parse(buffer, "ISISBEAM2");
+				if (tmp == NULL)
+				{
+					continue; // ignore anything other than ISISBEAM and ISISBEAM2 packets for moment
+				}
+				free(tmp);
+				tmp = xml_parse(buffer, "TIME");
+				if (tmp == NULL)
+				{	
+					continue;
+				}
+				timer = atol(tmp);
+				pstm = localtime(&timer);
+				free(tmp);
+				strftime(time_buffer, sizeof(time_buffer), "%d-%b-%Y %H:%M:%S", pstm);
+				tmp = xml_parse(buffer, "DMOD_RUNTIME"); dmodrunts2 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "DMOD_RUNTIME_LIM"); dmodrunlimts2 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "DMOD_UABEAM"); beamdmodts2 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "DMOD_ANNLOW1"); dmodannlowts2 = atof(tmp); free(tmp);
+				lock();
+				setDoubleParam(P_DmodRunTS2, dmodrunts2);
+				setDoubleParam(P_DmodRunLimTS2, dmodrunlimts2);
+				setDoubleParam(P_BeamDmodTS2, beamdmodts2);
+				setDoubleParam(P_DmodAnnLowTS2, dmodannlowts2);
+				callParamCallbacks();
+				unlock();
 			}
-			free(tmp);
-			tmp = xml_parse(buffer, "TIME");
-			if (tmp == NULL)
-			{	
-				continue;
+			else
+			{
+				free(tmp);
+				tmp = xml_parse(buffer, "TIME");
+				if (tmp == NULL)
+				{	
+					continue;
+				}
+				timer = atol(tmp);
+				pstm = localtime(&timer);
+				free(tmp);
+				strftime(time_buffer, sizeof(time_buffer), "%d-%b-%Y %H:%M:%S", pstm);
+				tmp = xml_parse(buffer, "BEAMT"); beamts1 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "BEAMT2"); beamts2 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "BEAME1"); beamepb1 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "MTEMP"); mtempts1 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "HTEMP"); htempts1 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "BEAMS"); beamsynch = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "REPR"); freqsynch = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "TS1_TOTAL"); totalts1 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "REPR2"); freqts2 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "TS2_TOTAL"); totalts2 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "T2MTEMP1"); demethanets2 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "T2MTEMP2"); methanets2 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "T2HTEMP1"); hydrogents2 = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "MUONKICKER"); muonkick = atof(tmp); free(tmp);
+				tmp = xml_parse(buffer, "TS1ON"); onts1 = tmp; free(tmp);
+				lock();
+				epicsTimeFromTime_t(&m_timestamp, timer);
+				setDoubleParam(P_BeamTS1, beamts1);
+				setDoubleParam(P_BeamTS2, beamts2);
+				setDoubleParam(P_BeamEPB1, beamepb1);
+				setDoubleParam(P_MethaneTS1, mtempts1);
+				setDoubleParam(P_HydrogenTS1, htempts1);
+				setDoubleParam(P_BeamSynch, beamsynch);
+				setDoubleParam(P_FreqSynch, freqsynch);
+				setDoubleParam(P_TotalTS1, totalts1);
+				setDoubleParam(P_FreqTS2, freqts2);
+				setDoubleParam(P_TotalTS2, totalts2);
+				setDoubleParam(P_DeMethaneTS2, demethanets2);
+				setDoubleParam(P_MethaneTS2, methanets2);
+				setDoubleParam(P_HydrogenTS2, hydrogents2);
+				setDoubleParam(P_MuonKick, muonkick);
+				callParamCallbacks();
+				unlock();
 			}
-			timer = atol(tmp);
-			pstm = localtime(&timer);
-			free(tmp);
-			strftime(time_buffer, sizeof(time_buffer), "%d-%b-%Y %H:%M:%S", pstm);
-			tmp = xml_parse(buffer, "BEAMT"); beamts1 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "BEAMT2"); beamts2 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "BEAME1"); beamepb1 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "MTEMP"); mtempts1 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "HTEMP"); htempts1 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "BEAMS"); beamsynch = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "REPR"); freqsynch = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "TS1_TOTAL"); totalts1 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "REPR2"); freqts2 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "TS2_TOTAL"); totalts2 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "T2MTEMP1"); demethanets2 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "T2MTEMP2"); methanets2 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "T2HTEMP1"); hydrogents2 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "MUONKICKER"); muonkick = atof(tmp); free(tmp);
-			//tmp = xml_parse(buffer, "DMOD_RUNTIME"); dmodrunts2 = atof(tmp); free(tmp);
-			//tmp = xml_parse(buffer, "DMOD_RUNTIME_LIM"); dmodrunlimts2 = atof(tmp); free(tmp);
-			//tmp = xml_parse(buffer, "DMOD_UABEAM"); beamdmodts2 = atof(tmp); free(tmp);
-			tmp = xml_parse(buffer, "TS1ON"); onts1 = tmp; free(tmp);
-			lock();
-			epicsTimeFromTime_t(&m_timestamp, timer);
-			setDoubleParam(P_BeamTS1, beamts1);
-			setDoubleParam(P_BeamTS2, beamts2);
-			setDoubleParam(P_BeamEPB1, beamepb1);
-			setDoubleParam(P_MethaneTS1, mtempts1);
-			setDoubleParam(P_HydrogenTS1, htempts1);
-			setDoubleParam(P_BeamSynch, beamsynch);
-			setDoubleParam(P_FreqSynch, freqsynch);
-			setDoubleParam(P_TotalTS1, totalts1);
-			setDoubleParam(P_FreqTS2, freqts2);
-			setDoubleParam(P_TotalTS2, totalts2);
-			setDoubleParam(P_DeMethaneTS2, demethanets2);
-			setDoubleParam(P_MethaneTS2, methanets2);
-			setDoubleParam(P_HydrogenTS2, hydrogents2);
-			setDoubleParam(P_MuonKick, muonkick);
-			//setDoubleParam(P_DmodRunTS2, dmodrunts2);
-			//setDoubleParam(P_DmodRunLimTS2, dmodrunlimts2);
-			//setDoubleParam(P_BeamDmodTS2, beamdmodts2);
-			setStringParam(P_OnTS1, onts1);
-			callParamCallbacks();
-			unlock();
 		}
 		else
 		{
