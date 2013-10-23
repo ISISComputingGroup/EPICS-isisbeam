@@ -217,3 +217,31 @@ record(ai, "$(P)AC:TS2:DMOD:ANN")
    field(SCAN, "I/O Intr")
    field(FLNK, "$(P)AC:TS2:DMOD:ANNOK")
 }
+
+record(stringin, "$(P)AC:TS1:TIME:ON")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)ONTS1")
+   field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)AC:TS1:TIME:OFF")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)OFFTS1")
+   field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)AC:TS2:TIME:ON")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)ONTS2")
+   field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)AC:TS2:TIME:OFF")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)OFFTS2")
+   field(SCAN, "I/O Intr")
+}

@@ -71,6 +71,10 @@ isisbeamDriver::isisbeamDriver(const char *portName)
 	createParam(P_DmodRunLimTS2String, asynParamFloat64, &P_DmodRunLimTS2);
 	createParam(P_BeamDmodTS2String, asynParamFloat64, &P_BeamDmodTS2);
 	createParam(P_DmodAnnLowTS2String, asynParamFloat64, &P_DmodAnnLowTS2);
+	createParam(P_OnTS1String, asynParamOctet, &P_OnTS1);
+	createParam(P_OffTS1String, asynParamOctet, &P_OffTS1);
+	createParam(P_OnTS2String, asynParamOctet, &P_OnTS2);
+	createParam(P_OffTS2String, asynParamOctet, &P_OffTS2);
 	
     // Create the thread for background tasks (not used at present, could be used for I/O intr scanning) 
     if (epicsThreadCreate("isisbeamPoller",
@@ -107,6 +111,7 @@ void isisbeamDriver::pollerThread()
 	struct tm* pstm;
 	time_t timer;
 	double beamts1, beamts2, beamepb1, mtempts1, htempts1, beamsynch, freqsynch, totalts1, freqts2, totalts2, demethanets2, methanets2, hydrogents2, dmodrunts2, dmodrunlimts2, beamdmodts2, muonkick, dmodannlowts2;
+	char *onts1, *offts1, *onts2, *offts2;
 	static char time_buffer[128];
 	while(true)
 	{
@@ -171,7 +176,10 @@ void isisbeamDriver::pollerThread()
 				tmp = xml_parse(buffer, "T2MTEMP2"); methanets2 = atof(tmp); free(tmp);
 				tmp = xml_parse(buffer, "T2HTEMP1"); hydrogents2 = atof(tmp); free(tmp);
 				tmp = xml_parse(buffer, "MUONKICKER"); muonkick = atof(tmp); free(tmp);
-				tmp = xml_parse(buffer, "TS1ON"); onts1 = tmp; free(tmp);
+				onts1 = xml_parse(buffer, "TS1ON"); 
+				offts1 = xml_parse(buffer, "TS1OFF");
+				onts2 = xml_parse(buffer, "TS2ON");
+				offts2 = xml_parse(buffer, "TS2OFF");
 				lock();
 				epicsTimeFromTime_t(&m_timestamp, timer);
 				setDoubleParam(P_BeamTS1, beamts1);
@@ -188,6 +196,14 @@ void isisbeamDriver::pollerThread()
 				setDoubleParam(P_MethaneTS2, methanets2);
 				setDoubleParam(P_HydrogenTS2, hydrogents2);
 				setDoubleParam(P_MuonKick, muonkick);
+				setStringParam(P_OnTS1, onts1);
+				setStringParam(P_OffTS1, offts1);
+				setStringParam(P_OnTS2, onts2);
+				setStringParam(P_OffTS2, offts2);
+				free(onts1);
+				free(offts1);
+				free(onts2);
+				free(offts2);
 				callParamCallbacks();
 				unlock();
 			}

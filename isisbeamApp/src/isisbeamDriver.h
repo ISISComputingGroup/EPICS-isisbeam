@@ -47,6 +47,10 @@ private:
 	int P_DmodRunLimTS2; // double
 	int P_BeamDmodTS2; // double
 	int P_DmodAnnLowTS2; // double
+	int P_OnTS1; //string
+	int P_OffTS1; //string
+	int P_OnTS2; //string
+	int P_OffTS2; //string
     int P_BeamEPB1; // double
 	
 	
@@ -77,5 +81,9 @@ private:
 #define P_DmodRunLimTS2String "DRLIMTS2"
 #define P_BeamDmodTS2String "BEAMDMODTS2"
 #define P_DmodAnnLowTS2String "DMODANNLOWTS2"
+#define P_OnTS1String "ONTS1"
+#define P_OffTS1String "OFFTS1"
+#define P_OnTS2String "ONTS2"
+#define P_OffTS2String "OFFTS2"
 
 #endif /* ISISBEAMDRIVER_H */
