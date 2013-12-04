@@ -1,3 +1,20 @@
+record(bo, "$(P)SIM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+}
+
+record(bo, "$(P)DISABLE") 
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "0")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
 record(ai, "$(P)AC:TS1:BEAM:CURR")
 {
    field(DTYP, "asynFloat64")
@@ -6,6 +23,9 @@ record(ai, "$(P)AC:TS1:BEAM:CURR")
    field(SCAN, "I/O Intr")
    field(FLNK, "$(P)AC:TS1:BEAM:ON")
 #   field(TSE, -2)
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS1:BEAM:CURR")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:TS2:BEAM:CURR")
@@ -16,6 +36,9 @@ record(ai, "$(P)AC:TS2:BEAM:CURR")
    field(SCAN, "I/O Intr")
    field(FLNK, "$(P)AC:TS2:BEAM:ON")
 #   field(TSE, -2)
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:BEAM:CURR")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:EPB1:BEAM:CURR")
@@ -25,6 +48,9 @@ record(ai, "$(P)AC:EPB1:BEAM:CURR")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 #   field(TSE, -2)
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:EPB1:BEAM:CURR")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)TG:TS1:MOD:METH:TEMP")
@@ -34,6 +60,9 @@ record(ai, "$(P)TG:TS1:MOD:METH:TEMP")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 #   field(TSE, -2)
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:TG:TS1:MOD:METH:TEMP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)TG:TS1:MOD:HDGN:TEMP")
@@ -43,6 +72,9 @@ record(ai, "$(P)TG:TS1:MOD:HDGN:TEMP")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 #   field(TSE, -2)
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:TG:TS1:MOD:HDGN:TEMP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 #Additions during story 227
@@ -53,6 +85,9 @@ record(ai, "$(P)AC:SYNCH:BEAM:CURR")
    field(INP,  "@asyn(isisbeam,0,0)BEAMSYNCH")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:SYNCH:BEAM:CURR")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:SYNCH:FREQ")
@@ -61,6 +96,9 @@ record(ai, "$(P)AC:SYNCH:FREQ")
    field(INP,  "@asyn(isisbeam,0,0)FREQSYNCH")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:SYNCH:FREQ")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:TS1:BEAM:FREQ")
@@ -69,6 +107,9 @@ record(ai, "$(P)AC:TS1:BEAM:FREQ")
    field(INP,  "@asyn(isisbeam,0,0)FREQSYNCH")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS1:BEAM:FREQ")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:TS1:BEAM:TOTAL")
@@ -77,6 +118,9 @@ record(ai, "$(P)AC:TS1:BEAM:TOTAL")
    field(INP,  "@asyn(isisbeam,0,0)TOTALTS1")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS1:BEAM:TOTAL")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:TS2:BEAM:FREQ")
@@ -85,6 +129,9 @@ record(ai, "$(P)AC:TS2:BEAM:FREQ")
    field(INP,  "@asyn(isisbeam,0,0)FREQTS2")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:BEAM:FREQ")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:TS2:BEAM:TOTAL")
@@ -93,6 +140,9 @@ record(ai, "$(P)AC:TS2:BEAM:TOTAL")
    field(INP,  "@asyn(isisbeam,0,0)TOTALTS2")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:BEAM:TOTAL")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:TS2:DMOD:METH:TEMP")
@@ -101,6 +151,9 @@ record(ai, "$(P)AC:TS2:DMOD:METH:TEMP")
    field(INP,  "@asyn(isisbeam,0,0)DEMETHTS2")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:DMOD:METH:TEMP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:TS2:MOD:METH:TEMP")
@@ -109,6 +162,9 @@ record(ai, "$(P)AC:TS2:MOD:METH:TEMP")
    field(INP,  "@asyn(isisbeam,0,0)METHTS2")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:MOD:METH:TEMP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:TS2:MOD:HDGN:TEMP")
@@ -117,6 +173,9 @@ record(ai, "$(P)AC:TS2:MOD:HDGN:TEMP")
    field(INP,  "@asyn(isisbeam,0,0)HDGNTS2")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:MOD:HDGN:TEMP")
+    field(SDIS, "$(P)DISABLE")
 }
 
 #Need to sort out the parsing of the ISISBEAM2 part of the XML
@@ -126,6 +185,9 @@ record(ai, "$(P)AC:TS2:DMOD:RTIME")
    field(INP,  "@asyn(isisbeam,0,0)DRUNTS2")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:DMOD:RTIME")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:TS2:DMOD:RTLIM")
@@ -134,6 +196,9 @@ record(ai, "$(P)AC:TS2:DMOD:RTLIM")
    field(INP,  "@asyn(isisbeam,0,0)DRLIMTS2")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:DMOD:RTLIM")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(ai, "$(P)AC:TS2:DMOD:BEAM")
@@ -142,6 +207,9 @@ record(ai, "$(P)AC:TS2:DMOD:BEAM")
    field(INP,  "@asyn(isisbeam,0,0)BEAMDMODTS2")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:DMOD:BEAM")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(bi, "$(P)AC:TS1:BEAM:ON")
@@ -150,6 +218,9 @@ record(bi, "$(P)AC:TS1:BEAM:ON")
 	field(INP, "$(P)AC:TS1:BEAM:ONCALC PP")
 	field(ZNAM, "OFF")
 	field(ONAM, "ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS1:BEAM:ON")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(calc, "$(P)AC:TS1:BEAM:ONCALC")
@@ -164,6 +235,9 @@ record(bi, "$(P)AC:TS2:BEAM:ON")
 	field(INP, "$(P)AC:TS2:BEAM:ONCALC PP")
 	field(ZNAM, "OFF")
 	field(ONAM, "ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:BEAM:ON")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(calc, "$(P)AC:TS2:BEAM:ONCALC")
@@ -179,6 +253,9 @@ record(ai, "$(P)AC:MUON:KICKR")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
    field(FLNK, "$(P)AC:MUON:KICKR:ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:MUON:KICKR")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(bi, "$(P)AC:MUON:KICKR:ON")
@@ -187,6 +264,9 @@ record(bi, "$(P)AC:MUON:KICKR:ON")
 	field(INP, "$(P)AC:MUON:KICKR:ONCALC PP")
 	field(ZNAM, "OFF")
 	field(ONAM, "ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:MUON:KICKR:ON")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(calc, "$(P)AC:MUON:KICKR:ONCALC")
@@ -201,6 +281,9 @@ record(bi, "$(P)AC:TS2:DMOD:ANNOK")
 	field(INP, "$(P)AC:TS2:DMOD:ANCLC PP")
 	field(ZNAM, "OFF")
 	field(ONAM, "ON")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:DMOD:ANNOK")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(calc, "$(P)AC:TS2:DMOD:ANCLC")
@@ -216,6 +299,9 @@ record(ai, "$(P)AC:TS2:DMOD:ANN")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
    field(FLNK, "$(P)AC:TS2:DMOD:ANNOK")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:DMOD:ANN")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(stringin, "$(P)AC:TS1:TIME:ON")
@@ -223,6 +309,9 @@ record(stringin, "$(P)AC:TS1:TIME:ON")
    field(DTYP, "asynOctetRead")
    field(INP,  "@asyn(isisbeam,0,0)ONTS1")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS1:TIME:ON")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(stringin, "$(P)AC:TS1:TIME:OFF")
@@ -230,6 +319,9 @@ record(stringin, "$(P)AC:TS1:TIME:OFF")
    field(DTYP, "asynOctetRead")
    field(INP,  "@asyn(isisbeam,0,0)OFFTS1")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS1:TIME:OFF")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(stringin, "$(P)AC:TS2:TIME:ON")
@@ -237,6 +329,9 @@ record(stringin, "$(P)AC:TS2:TIME:ON")
    field(DTYP, "asynOctetRead")
    field(INP,  "@asyn(isisbeam,0,0)ONTS2")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:TIME:ON")
+    field(SDIS, "$(P)DISABLE")
 }
 
 record(stringin, "$(P)AC:TS2:TIME:OFF")
@@ -244,4 +339,171 @@ record(stringin, "$(P)AC:TS2:TIME:OFF")
    field(DTYP, "asynOctetRead")
    field(INP,  "@asyn(isisbeam,0,0)OFFTS2")
    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AC:TS2:TIME:OFF")
+    field(SDIS, "$(P)DISABLE")
 }
+### SIMULATION RECORDS ###
+
+record(bi, "$(P)SIM:AC:TS2:DMOD:ANNOK")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:MUON:KICKR")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(stringin, "$(P)SIM:AC:TS2:TIME:ON")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS2:BEAM:FREQ")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS2:MOD:HDGN:TEMP")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:TG:TS1:MOD:METH:TEMP")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(stringin, "$(P)SIM:AC:TS2:TIME:OFF")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:SYNCH:BEAM:CURR")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS2:DMOD:METH:TEMP")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(stringin, "$(P)SIM:AC:TS1:TIME:OFF")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(bi, "$(P)SIM:AC:MUON:KICKR:ON")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS1:BEAM:TOTAL")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:TG:TS1:MOD:HDGN:TEMP")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS2:MOD:METH:TEMP")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS2:DMOD:RTLIM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS2:DMOD:BEAM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:EPB1:BEAM:CURR")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS2:BEAM:TOTAL")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(bi, "$(P)SIM:AC:TS1:BEAM:ON")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS2:DMOD:RTIME")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS1:BEAM:CURR")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(stringin, "$(P)SIM:AC:TS1:TIME:ON")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:SYNCH:FREQ")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(bi, "$(P)SIM:AC:TS2:BEAM:ON")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS2:DMOD:ANN")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS1:BEAM:FREQ")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ai, "$(P)SIM:AC:TS2:BEAM:CURR")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
