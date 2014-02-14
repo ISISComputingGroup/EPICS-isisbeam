@@ -18,8 +18,8 @@ isisbeam_registerRecordDeviceDriver pdbbase
 isisbeamConfigure("isisbeam")
 
 ## Load record instances
-dbLoadRecords("$(TOP)/db/isisbeam.db","P=$(IOCNAME):")
-dbLoadRecords("$(IOCSTATS_DB)","IOC=$(IOCNAME)")
+dbLoadRecords("$(TOP)/db/isisbeam.db","P=$(IOCNAME)")
+dbLoadRecords("$(IOCSTATS_DB)","IOC=$(IOCNAME)ISISBEAM")
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit

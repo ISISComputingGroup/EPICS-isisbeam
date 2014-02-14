@@ -1,4 +1,4 @@
-record(bo, "$(P)DISABLE") 
+record(bo, "$(P)ISISBEAM:DISABLE") 
 {
     field(DESC, "Disable comms")
     field(PINI, "YES")
