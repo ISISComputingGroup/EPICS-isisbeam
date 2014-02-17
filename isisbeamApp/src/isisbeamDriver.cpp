@@ -234,14 +234,14 @@ void isisbeamDriver::pollerThread()
     static const char* functionName = "isisbeamPoller";
 	static char buffer[LEN_BUFFER+1];
 	SOCKET sd = setup_udp_socket(ND_BROADCAST_PORT1, 0);
-	int n,k,v,l;
+	int n,v;
 	char* tmp;
 	struct tm* pstm;
 	time_t timer;
 	double beamts1, beamts2, beamepb1, mtempts1, htempts1, beamsynch, freqsynch, totalts1, freqts2, totalts2, demethanets2, methanets2, hydrogents2, dmodrunts2, dmodrunlimts2, beamdmodts2, muonkick, dmodannlowts2;
-	char *onts1, *offts1, *onts2, *offts2, three_chars[3], one_char[1], *e1, *e2, *e3, *e4, *e5, *e6, *e7, *e8, *e9, *w1, *w2, *w3, *w4, *w5, *w6, *w7, *w8, *w9, *n1, *n2, *n3, *n4, *n5, *n6, *n7, *n8, *n9, *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9;
+	char *onts1, *offts1, *onts2, *offts2, *e1, *e2, *e3, *e4, *e5, *e6, *e7, *e8, *e9, *w1, *w2, *w3, *w4, *w5, *w6, *w7, *w8, *w9, *n1, *n2, *n3, *n4, *n5, *n6, *n7, *n8, *n9, *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9;
 	static char time_buffer[128];
-	int portvals[9];
+	int  c1, c2, c3, c4, c5, c6, c7, c8, c9;
 	while(true)
 	{
 		n = receive_data_udp(sd, buffer, LEN_BUFFER);
@@ -273,38 +273,28 @@ void isisbeamDriver::pollerThread()
 				tmp = xml_parse(buffer, "DMOD_ANNLOW1"); dmodannlowts2 = atof(tmp); free(tmp);
 				//Addtions story #266
 				tmp = xml_parse(buffer, "VATE");
-				for (k=0;k<9;k++)
-				{
-					memcpy(one_char,tmp+k,1);
-					v = atoi((const char *)one_char);
-					portvals[k]=v;
-				}
-				e1 = ts2_vat_status(portvals[0]);
-				e2 = ts2_vat_status(portvals[1]);
-				e3 = ts2_vat_status(portvals[2]);
-				e4 = ts2_vat_status(portvals[3]);
-				e5 = ts2_vat_status(portvals[4]);
-				e6 = ts2_vat_status(portvals[5]);
-				e7 = ts2_vat_status(portvals[6]);
-				e8 = ts2_vat_status(portvals[7]);
-				e9 = ts2_vat_status(portvals[8]);
+				sscanf(tmp, "%lu %lu %lu %lu %lu %lu %lu %lu %lu", &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9);
+				e1 = ts2_vat_status(c1);
+				e2 = ts2_vat_status(c2);
+				e3 = ts2_vat_status(c3);
+				e4 = ts2_vat_status(c4);
+				e5 = ts2_vat_status(c5);
+				e6 = ts2_vat_status(c6);
+				e7 = ts2_vat_status(c7);
+				e8 = ts2_vat_status(c8);
+				e9 = ts2_vat_status(c9);
 				free(tmp);
 				tmp = xml_parse(buffer, "VATW");
-				for (k=0;k<9;k++)
-				{
-					memcpy(one_char,tmp+k,1);
-					v = atoi((const char *)one_char);
-					portvals[k]=v;
-				}
-				w1 = ts2_vat_status(portvals[0]);
-				w2 = ts2_vat_status(portvals[1]);
-				w3 = ts2_vat_status(portvals[2]);
-				w4 = ts2_vat_status(portvals[3]);
-				w5 = ts2_vat_status(portvals[4]);
-				w6 = ts2_vat_status(portvals[5]);
-				w7 = ts2_vat_status(portvals[6]);
-				w8 = ts2_vat_status(portvals[7]);
-				w9 = ts2_vat_status(portvals[8]);
+				sscanf(tmp, "%lu %lu %lu %lu %lu %lu %lu %lu %lu", &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9);
+				w1 = ts2_vat_status(c1);
+				w2 = ts2_vat_status(c2);
+				w3 = ts2_vat_status(c3);
+				w4 = ts2_vat_status(c4);
+				w5 = ts2_vat_status(c5);
+				w6 = ts2_vat_status(c6);
+				w7 = ts2_vat_status(c7);
+				w8 = ts2_vat_status(c8);
+				w9 = ts2_vat_status(c9);
 				free(tmp);
 				//End Addtions story #266
 				lock();
@@ -367,52 +357,28 @@ void isisbeamDriver::pollerThread()
 				offts2 = xml_parse(buffer, "TS2OFF");
 				//Addtions story #266
 				tmp = xml_parse(buffer, "SHUTE");
-				l=0;
-				for (k=0;k<9;k++)
-				{
-					memcpy(one_char,tmp+k+l,1);
-					v = atoi((const char *)one_char);
-					if (v != 0)
-					{
-						memcpy(three_chars,tmp+k+l,3);
-						l=l+2;
-						v = atoi((const char *)three_chars);
-					};
-					portvals[k]=v;
-				}
-				e1 = ts2_shutter_status(portvals[0]);
-				e2 = ts2_shutter_status(portvals[1]);
-				e3 = ts2_shutter_status(portvals[2]);
-				e4 = ts2_shutter_status(portvals[3]);
-				e5 = ts2_shutter_status(portvals[4]);
-				e6 = ts2_shutter_status(portvals[5]);
-				e7 = ts2_shutter_status(portvals[6]);
-				e8 = ts2_shutter_status(portvals[7]);
-				e9 = ts2_shutter_status(portvals[8]);
+				sscanf(tmp, "%lu %lu %lu %lu %lu %lu %lu %lu %lu", &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9);
+				e1 = ts2_shutter_status(c1);
+				e2 = ts2_shutter_status(c2);
+				e3 = ts2_shutter_status(c3);
+				e4 = ts2_shutter_status(c4);
+				e5 = ts2_shutter_status(c5);
+				e6 = ts2_shutter_status(c6);
+				e7 = ts2_shutter_status(c7);
+				e8 = ts2_shutter_status(c8);
+				e9 = ts2_shutter_status(c9);
 				free(tmp);
 				tmp = xml_parse(buffer, "SHUTW");
-				l=0;
-				for (k=0;k<9;k++)
-				{
-					memcpy(one_char,tmp+k+l,1);
-					v = atoi((const char *)one_char);
-					if (v != 0)
-					{
-						memcpy(three_chars,tmp+k+l,3);
-						l=l+2;
-						v = atoi((const char *)three_chars);
-					};
-					portvals[k]=v;
-				}
-				w1 = ts2_shutter_status(portvals[0]);
-				w2 = ts2_shutter_status(portvals[1]);
-				w3 = ts2_shutter_status(portvals[2]);
-				w4 = ts2_shutter_status(portvals[3]);
-				w5 = ts2_shutter_status(portvals[4]);
-				w6 = ts2_shutter_status(portvals[5]);
-				w7 = ts2_shutter_status(portvals[6]);
-				w8 = ts2_shutter_status(portvals[7]);
-				w9 = ts2_shutter_status(portvals[8]);
+				sscanf(tmp, "%lu %lu %lu %lu %lu %lu %lu %lu %lu", &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9);
+				w1 = ts2_shutter_status(c1);
+				w2 = ts2_shutter_status(c2);
+				w3 = ts2_shutter_status(c3);
+				w4 = ts2_shutter_status(c4);
+				w5 = ts2_shutter_status(c5);
+				w6 = ts2_shutter_status(c6);
+				w7 = ts2_shutter_status(c7);
+				w8 = ts2_shutter_status(c8);
+				w9 = ts2_shutter_status(c9);
 				free(tmp);
 				tmp = xml_parse(buffer, "SHUTN");
 				v = atoi((const char *)tmp);
