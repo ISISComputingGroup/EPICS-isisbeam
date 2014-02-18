@@ -56,6 +56,54 @@ static char* ts2_shutter_status(int stat)
     return "INVALID"; /*NOTREACHED*/
 }
 
+static char* ts2_shutter_mode(int stat)
+{
+    switch( (stat >> 8) & 0xff )
+    {
+                case 0:
+                    return "DEACT";; // De-Activated
+                    break;
+                case 1:
+                    return "MANUAL"; // Manual (Control Room HMI)
+                    break;
+                case 2:
+                    return "REM-MANUAL"; // Remote Manual (used for shutter scanning)
+                    break;
+                case 3:
+                    return "STC"; // Shield Top Control (used for maintenance)
+                    break;
+                case 4:
+                    return "OPENING-BLR"; // Opening (beam line request)
+                    break;
+                case 5:
+                    return "CLOSING-BLR"; // Closing (beam line request)
+                    break;
+                case 6:
+                    return "POS-CORR"; // Position Correction
+                    break;
+                case 7:
+                    return "OPENING-CR"; // Opening (control Room HMI request)
+                    break;
+                case 8:
+                    return "CLOSING-CR"; // Closing (control Room HMI request)
+                    break;
+                case 9:
+                    return "EMG-CLOSE"; // Emergency Close (control Room HMI request)
+                    break;
+                case 98:
+                    return "BLC"; // Beam Line Control (no auto correction)
+                    break;
+                case 99:
+                    return "BLC"; // Beam Line Control (with auto correction)
+                    break;
+                default:
+                    return "INVALID";
+                    break;
+
+    }	    
+    return "INVALID"; /*NOTREACHED*/
+}
+
 static char* ts2_vat_status(int stat)
 {
     switch(stat)
@@ -198,6 +246,24 @@ isisbeamDriver::isisbeamDriver(const char *portName)
 	createParam(P_W7VATString, asynParamOctet, &P_W7VAT);
 	createParam(P_W8VATString, asynParamOctet, &P_W8VAT);
 	createParam(P_W9VATString, asynParamOctet, &P_W9VAT);
+	createParam(P_E1SModeString, asynParamOctet, &P_E1SMode);
+	createParam(P_E2SModeString, asynParamOctet, &P_E2SMode);
+	createParam(P_E3SModeString, asynParamOctet, &P_E3SMode);
+	createParam(P_E4SModeString, asynParamOctet, &P_E4SMode);
+	createParam(P_E5SModeString, asynParamOctet, &P_E5SMode);
+	createParam(P_E6SModeString, asynParamOctet, &P_E6SMode);
+	createParam(P_E7SModeString, asynParamOctet, &P_E7SMode);
+	createParam(P_E8SModeString, asynParamOctet, &P_E8SMode);
+	createParam(P_E9SModeString, asynParamOctet, &P_E9SMode);
+	createParam(P_W1SModeString, asynParamOctet, &P_W1SMode);
+	createParam(P_W2SModeString, asynParamOctet, &P_W2SMode);
+	createParam(P_W3SModeString, asynParamOctet, &P_W3SMode);
+	createParam(P_W4SModeString, asynParamOctet, &P_W4SMode);
+	createParam(P_W5SModeString, asynParamOctet, &P_W5SMode);
+	createParam(P_W6SModeString, asynParamOctet, &P_W6SMode);
+	createParam(P_W7SModeString, asynParamOctet, &P_W7SMode);
+	createParam(P_W8SModeString, asynParamOctet, &P_W8SMode);
+	createParam(P_W9SModeString, asynParamOctet, &P_W9SMode);
 	//End Additional Params for story #266
 	createParam(P_OnTS1String, asynParamOctet, &P_OnTS1);
 	createParam(P_OffTS1String, asynParamOctet, &P_OffTS1);
@@ -239,7 +305,7 @@ void isisbeamDriver::pollerThread()
 	struct tm* pstm;
 	time_t timer;
 	double beamts1, beamts2, beamepb1, mtempts1, htempts1, beamsynch, freqsynch, totalts1, freqts2, totalts2, demethanets2, methanets2, hydrogents2, dmodrunts2, dmodrunlimts2, beamdmodts2, muonkick, dmodannlowts2;
-	char *onts1, *offts1, *onts2, *offts2, *e1, *e2, *e3, *e4, *e5, *e6, *e7, *e8, *e9, *w1, *w2, *w3, *w4, *w5, *w6, *w7, *w8, *w9, *n1, *n2, *n3, *n4, *n5, *n6, *n7, *n8, *n9, *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9;
+	char *onts1, *offts1, *onts2, *offts2, *e1, *e2, *e3, *e4, *e5, *e6, *e7, *e8, *e9, *w1, *w2, *w3, *w4, *w5, *w6, *w7, *w8, *w9, *n1, *n2, *n3, *n4, *n5, *n6, *n7, *n8, *n9, *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9, *em1, *em2, *em3, *em4, *em5, *em6, *em7, *em8, *em9, *wm1, *wm2, *wm3, *wm4, *wm5, *wm6, *wm7, *wm8, *wm9;
 	static char time_buffer[128];
 	int  c1, c2, c3, c4, c5, c6, c7, c8, c9;
 	while(true)
@@ -367,6 +433,15 @@ void isisbeamDriver::pollerThread()
 				e7 = ts2_shutter_status(c7);
 				e8 = ts2_shutter_status(c8);
 				e9 = ts2_shutter_status(c9);
+				em1 = ts2_shutter_mode(c1);
+				em2 = ts2_shutter_mode(c2);
+				em3 = ts2_shutter_mode(c3);
+				em4 = ts2_shutter_mode(c4);
+				em5 = ts2_shutter_mode(c5);
+				em6 = ts2_shutter_mode(c6);
+				em7 = ts2_shutter_mode(c7);
+				em8 = ts2_shutter_mode(c8);
+				em9 = ts2_shutter_mode(c9);
 				free(tmp);
 				tmp = xml_parse(buffer, "SHUTW");
 				sscanf(tmp, "%lu %lu %lu %lu %lu %lu %lu %lu %lu", &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9);
@@ -379,6 +454,15 @@ void isisbeamDriver::pollerThread()
 				w7 = ts2_shutter_status(c7);
 				w8 = ts2_shutter_status(c8);
 				w9 = ts2_shutter_status(c9);
+				wm1 = ts2_shutter_mode(c1);
+				wm2 = ts2_shutter_mode(c2);
+				wm3 = ts2_shutter_mode(c3);
+				wm4 = ts2_shutter_mode(c4);
+				wm5 = ts2_shutter_mode(c5);
+				wm6 = ts2_shutter_mode(c6);
+				wm7 = ts2_shutter_mode(c7);
+				wm8 = ts2_shutter_mode(c8);
+				wm9 = ts2_shutter_mode(c9);
 				free(tmp);
 				tmp = xml_parse(buffer, "SHUTN");
 				v = atoi((const char *)tmp);
@@ -448,6 +532,24 @@ void isisbeamDriver::pollerThread()
 				setStringParam(P_W7Shut, w7);
 				setStringParam(P_W8Shut, w8);
 				setStringParam(P_W9Shut, w9);
+				setStringParam(P_E1SMode, em1);
+				setStringParam(P_E2SMode, em2);
+				setStringParam(P_E3SMode, em3);
+				setStringParam(P_E4SMode, em4);
+				setStringParam(P_E5SMode, em5);
+				setStringParam(P_E6SMode, em6);
+				setStringParam(P_E7SMode, em7);
+				setStringParam(P_E8SMode, em8);
+				setStringParam(P_E9SMode, em9);
+				setStringParam(P_W1SMode, wm1);
+				setStringParam(P_W2SMode, wm2);
+				setStringParam(P_W3SMode, wm3);
+				setStringParam(P_W4SMode, wm4);
+				setStringParam(P_W5SMode, wm5);
+				setStringParam(P_W6SMode, wm6);
+				setStringParam(P_W7SMode, wm7);
+				setStringParam(P_W8SMode, wm8);
+				setStringParam(P_W9SMode, wm9);
 				setStringParam(P_N1Shut, n1);
 				setStringParam(P_N2Shut, n2);
 				setStringParam(P_N3Shut, n3);

@@ -106,6 +106,24 @@ private:
 	int P_W7VAT; //string
 	int P_W8VAT; //string
 	int P_W9VAT; //string
+	int P_E1SMode; //string
+	int P_E2SMode; //string
+	int P_E3SMode; //string
+	int P_E4SMode; //string
+	int P_E5SMode; //string
+	int P_E6SMode; //string
+	int P_E7SMode; //string
+	int P_E8SMode; //string
+	int P_E9SMode; //string
+	int P_W1SMode; //string
+	int P_W2SMode; //string
+	int P_W3SMode; //string
+	int P_W4SMode; //string
+	int P_W5SMode; //string
+	int P_W6SMode; //string
+	int P_W7SMode; //string
+	int P_W8SMode; //string
+	int P_W9SMode; //string
 //End Additions for story #266
     int P_BeamEPB1; // double
 	
@@ -196,6 +214,24 @@ private:
 #define P_W7VATString "W7VAT"
 #define P_W8VATString "W8VAT"
 #define P_W9VATString "W9VAT"
+#define P_E1SModeString "E1SMODE"
+#define P_E2SModeString "E2SMODE"
+#define P_E3SModeString "E3SMODE"
+#define P_E4SModeString "E4SMODE"
+#define P_E5SModeString "E5SMODE"
+#define P_E6SModeString "E6SMODE"
+#define P_E7SModeString "E7SMODE"
+#define P_E8SModeString "E8SMODE"
+#define P_E9SModeString "E9SMODE"
+#define P_W1SModeString "W1SMODE"
+#define P_W2SModeString "W2SMODE"
+#define P_W3SModeString "W3SMODE"
+#define P_W4SModeString "W4SMODE"
+#define P_W5SModeString "W5SMODE"
+#define P_W6SModeString "W6SMODE"
+#define P_W7SModeString "W7SMODE"
+#define P_W8SModeString "W8SMODE"
+#define P_W9SModeString "W9SMODE"
 //End Additions for story #266
 
 #endif /* ISISBEAMDRIVER_H */

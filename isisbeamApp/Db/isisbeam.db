@@ -712,6 +712,150 @@ record(stringin, "$(P)BL:S9:SHUTTER:STATUS")
     field(SDIS, "$(P)DISABLE")
 }
 
+record(stringin, "$(P)BL:E1:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)E1SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:E2:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)E2SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:E3:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)E3SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:E4:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)E4SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:E5:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)E5SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:E6:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)E6SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:E7:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)E7SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:E8:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)E8SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:E9:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)E9SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:W1:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)W1SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:W2:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)W2SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:W3:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)W3SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:W4:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)W4SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:W5:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)W5SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:W6:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)W6SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:W7:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)W7SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:W8:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)W8SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)BL:W9:SHUTTER:MODE")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)W9SMODE")
+   field(SCAN, "I/O Intr")
+    field(SDIS, "$(P)DISABLE")
+}
+
 # Renamed certain PVs for correctness, corrected CSS screen, but just in case have aliased as well
 alias("$(P)TG:TS2:MOD:METH:TEMP","$(P)AC:TS2:MOD:METH:TEMP")
 alias("$(P)TG:TS2:MOD:HDGN:TEMP","$(P)AC:TS2:MOD:HDGN:TEMP")
@@ -758,3 +902,12 @@ alias("$(P)BL:E8:VAT:STAT","$(P)IN:WISH:VAT:STAT")
 alias("$(P)BL:W1:VAT:STAT","$(P)IN:CHIPIR:VAT:STAT")
 alias("$(P)BL:W6:VAT:STAT","$(P)IN:LET:VAT:STAT")
 alias("$(P)BL:W7:VAT:STAT","$(P)IN:NIMROD:VAT:STAT")
+alias("$(P)BL:E2:SHUTTER:MODE","$(P)IN:SANS2D:SHTR:MODE")
+alias("$(P)BL:E3:SHUTTER:MODE","$(P)IN:POLREF:SHTR:MODE")
+alias("$(P)BL:E4:SHUTTER:MODE","$(P)IN:INTER:SHTR:MODE")
+alias("$(P)BL:E5:SHUTTER:MODE","$(P)IN:OFFSPEC:SHTR:MODE")
+alias("$(P)BL:E6:SHUTTER:MODE","$(P)IN:LARMOR:SHTR:MODE")
+alias("$(P)BL:E8:SHUTTER:MODE","$(P)IN:WISH:SHTR:MODE")
+alias("$(P)BL:W1:SHUTTER:MODE","$(P)IN:CHIPIR:SHTR:MODE")
+alias("$(P)BL:W6:SHUTTER:MODE","$(P)IN:LET:SHTR:MODE")
+alias("$(P)BL:W7:SHUTTER:MODE","$(P)IN:NIMROD:SHTR:MODE")
