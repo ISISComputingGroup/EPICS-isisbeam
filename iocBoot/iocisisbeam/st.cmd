@@ -19,6 +19,9 @@ isisbeamConfigure("isisbeam")
 
 ## Load record instances
 dbLoadRecords("$(TOP)/db/isisbeam.db","P=$(IOCNAME)")
+dbLoadRecords("$(TOP)/db/shutter_mode.db","P=$(IOCNAME)")
+dbLoadRecords("$(TOP)/db/shutter_status.db","P=$(IOCNAME)")
+dbLoadRecords("$(TOP)/db/vat.db","P=$(IOCNAME)")
 dbLoadRecords("$(IOCSTATS_DB)","IOC=$(IOCNAME)ISISBEAM")
 
 cd ${TOP}/iocBoot/${IOC}
