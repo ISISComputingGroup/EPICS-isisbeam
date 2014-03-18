@@ -342,7 +342,7 @@ record(stringin, "$(P)AC:TS1:BEAMOFF:TIME")
    field(SDIS, "$(P)ISISBEAM:DISABLE")
 }
 
-record(stringin, "$(P)AC:TS2:BEAMOFF:TIME")
+record(stringin, "$(P)AC:TS2:BEAMON:TIME")
 {
    field(DTYP, "asynOctetRead")
    field(INP,  "@asyn(isisbeam,0,0)ONTS2")
