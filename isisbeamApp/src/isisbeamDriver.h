@@ -133,6 +133,7 @@ private:
 	
 	void pollerThread();
 	epicsTimeStamp m_timestamp;
+	char *parse_datetime(char *value);
 };
 
 #define NUM_ISISBEAM_PARAMS (&LAST_ISISBEAM_PARAM - &FIRST_ISISBEAM_PARAM + 1)

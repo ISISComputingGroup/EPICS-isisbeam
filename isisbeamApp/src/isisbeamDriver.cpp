@@ -421,6 +421,11 @@ void isisbeamDriver::pollerThread()
 				offts1 = xml_parse(buffer, "TS1OFF");
 				onts2 = xml_parse(buffer, "TS2ON");
 				offts2 = xml_parse(buffer, "TS2OFF");
+				// Reformat date/time strings
+				onts1 = parse_datetime(onts1);
+				offts1 = parse_datetime(offts1);
+				onts2 = parse_datetime(onts2);
+				offts2 = parse_datetime(offts2);
 				//Addtions story #266
 				tmp = xml_parse(buffer, "SHUTE");
 				sscanf(tmp, "%lu %lu %lu %lu %lu %lu %lu %lu %lu", &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9);
@@ -579,6 +584,28 @@ void isisbeamDriver::pollerThread()
 		}
 	}
 }	
+
+#define DATE_TIME_LEN 20
+#define TIME_START_POSN 11
+#define DAY_START_POSN 8
+#define MON_START_POSN 5
+
+// Reformat date/time strings
+// NB Value is freed and a newly allocated string returned, which the caller should free.
+char *isisbeamDriver::parse_datetime(char *value) 
+{
+	// Convert YYYY-MM-DDThh:mm:ss to hh:mm:ss DD:MM:YYYY
+	char *newVal = (char *)calloc(DATE_TIME_LEN, sizeof(char));
+	strcpy(newVal, &value[TIME_START_POSN]); // hh:mm:ss
+	strcat(newVal, " ");
+	strncat(newVal, &value[DAY_START_POSN], 2); // DD
+	strcat(newVal, "-");
+	strncat(newVal, &value[MON_START_POSN], 2); // MM
+	strcat(newVal, "-");
+	strncat(newVal, value, 4); // YYYY
+	free(value);
+	return newVal;
+}
 
 extern "C" {
 
