@@ -51,7 +51,6 @@ private:
 	int P_OffTS1; //string
 	int P_OnTS2; //string
 	int P_OffTS2; //string
-//Additions for story #266
 	int P_N1Shut; //string
 	int P_N2Shut; //string
 	int P_N3Shut; //string
@@ -124,16 +123,18 @@ private:
 	int P_W7SMode; //string
 	int P_W8SMode; //string
 	int P_W9SMode; //string
-//End Additions for story #266
+	int P_InstTS1; // string
+	int P_InstTS2; // string
+	int P_OsirisCryomag; // int
+	int P_UpdateTime; // string
+	int P_UpdateTimeT; // int
     int P_BeamEPB1; // double
-	
-	
-	#define FIRST_ISISBEAM_PARAM P_BeamTS1
-	#define LAST_ISISBEAM_PARAM P_BeamEPB1
+		
+#define FIRST_ISISBEAM_PARAM P_BeamTS1
+#define LAST_ISISBEAM_PARAM P_BeamEPB1
 	
 	void pollerThread();
 	epicsTimeStamp m_timestamp;
-	char *parse_datetime(char *value);
 };
 
 #define NUM_ISISBEAM_PARAMS (&LAST_ISISBEAM_PARAM - &FIRST_ISISBEAM_PARAM + 1)
@@ -160,7 +161,6 @@ private:
 #define P_OffTS1String "OFFTS1"
 #define P_OnTS2String "ONTS2"
 #define P_OffTS2String "OFFTS2"
-//Additions for story #266
 #define P_N1ShutString "N1SHUT"
 #define P_N2ShutString "N2SHUT"
 #define P_N3ShutString "N3SHUT"
@@ -233,6 +233,10 @@ private:
 #define P_W7SModeString "W7SMODE"
 #define P_W8SModeString "W8SMODE"
 #define P_W9SModeString "W9SMODE"
-//End Additions for story #266
+#define P_InstTS1String "INSTTS1"
+#define P_InstTS2String "INSTTS2"
+#define P_OsirisCryomagString "OSRSCRYO"
+#define P_UpdateTimeString "UPDTIME"
+#define P_UpdateTimeTString "UPDTIMET"
 
 #endif /* ISISBEAMDRIVER_H */

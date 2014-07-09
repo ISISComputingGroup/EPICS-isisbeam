@@ -27,7 +27,6 @@
 static epicsThreadOnceId onceId = EPICS_THREAD_ONCE_INIT;
 
 
-//Additions for Story #266, KVLB
 //Copied from relay_server.c to format the shutter status info
 static char* ts2_shutter_status(int stat)
 {
@@ -144,7 +143,6 @@ static char* ts1_shutter_status(int stat, int beamline)
     }	    
     return "INVALID"; /*NOTREACHED*/
 }
-//End Additions for Story #266
 
 static void initCOM(void*)
 {
@@ -191,7 +189,6 @@ isisbeamDriver::isisbeamDriver(const char *portName)
 	createParam(P_DmodRunLimTS2String, asynParamFloat64, &P_DmodRunLimTS2);
 	createParam(P_BeamDmodTS2String, asynParamFloat64, &P_BeamDmodTS2);
 	createParam(P_DmodAnnLowTS2String, asynParamFloat64, &P_DmodAnnLowTS2);
-	//Additional Params for story #266
 	createParam(P_N1ShutString, asynParamOctet, &P_N1Shut);
 	createParam(P_N2ShutString, asynParamOctet, &P_N2Shut);
 	createParam(P_N3ShutString, asynParamOctet, &P_N3Shut);
@@ -264,12 +261,16 @@ isisbeamDriver::isisbeamDriver(const char *portName)
 	createParam(P_W7SModeString, asynParamOctet, &P_W7SMode);
 	createParam(P_W8SModeString, asynParamOctet, &P_W8SMode);
 	createParam(P_W9SModeString, asynParamOctet, &P_W9SMode);
-	//End Additional Params for story #266
 	createParam(P_OnTS1String, asynParamOctet, &P_OnTS1);
 	createParam(P_OffTS1String, asynParamOctet, &P_OffTS1);
 	createParam(P_OnTS2String, asynParamOctet, &P_OnTS2);
 	createParam(P_OffTS2String, asynParamOctet, &P_OffTS2);
-	
+	createParam(P_InstTS1String, asynParamOctet, &P_InstTS1);
+	createParam(P_InstTS2String, asynParamOctet, &P_InstTS2);
+	createParam(P_OsirisCryomagString, asynParamInt32, &P_OsirisCryomag);
+	createParam(P_UpdateTimeString, asynParamOctet, &P_UpdateTime);
+	createParam(P_UpdateTimeTString, asynParamInt32, &P_UpdateTimeT);
+
     // Create the thread for background tasks (not used at present, could be used for I/O intr scanning) 
     if (epicsThreadCreate("isisbeamPoller",
                           epicsThreadPriorityMedium,
@@ -308,6 +309,7 @@ void isisbeamDriver::pollerThread()
 	char *onts1, *offts1, *onts2, *offts2, *e1, *e2, *e3, *e4, *e5, *e6, *e7, *e8, *e9, *w1, *w2, *w3, *w4, *w5, *w6, *w7, *w8, *w9, *n1, *n2, *n3, *n4, *n5, *n6, *n7, *n8, *n9, *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9, *em1, *em2, *em3, *em4, *em5, *em6, *em7, *em8, *em9, *wm1, *wm2, *wm3, *wm4, *wm5, *wm6, *wm7, *wm8, *wm9;
 	static char time_buffer[128];
 	int  c1, c2, c3, c4, c5, c6, c7, c8, c9;
+
 	while(true)
 	{
 		n = receive_data_udp(sd, buffer, LEN_BUFFER);
@@ -332,12 +334,11 @@ void isisbeamDriver::pollerThread()
 				timer = atol(tmp);
 				pstm = localtime(&timer);
 				free(tmp);
-				strftime(time_buffer, sizeof(time_buffer), "%d-%b-%Y %H:%M:%S", pstm);
+				strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%dT%H:%M:%S+0100", pstm);
 				tmp = xml_parse(buffer, "DMOD_RUNTIME"); dmodrunts2 = atof(tmp); free(tmp);
 				tmp = xml_parse(buffer, "DMOD_RUNTIME_LIM"); dmodrunlimts2 = atof(tmp); free(tmp);
 				tmp = xml_parse(buffer, "DMOD_UABEAM"); beamdmodts2 = atof(tmp); free(tmp);
 				tmp = xml_parse(buffer, "DMOD_ANNLOW1"); dmodannlowts2 = atof(tmp); free(tmp);
-				//Addtions story #266
 				tmp = xml_parse(buffer, "VATE");
 				sscanf(tmp, "%lu %lu %lu %lu %lu %lu %lu %lu %lu", &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9);
 				e1 = ts2_vat_status(c1);
@@ -362,13 +363,11 @@ void isisbeamDriver::pollerThread()
 				w8 = ts2_vat_status(c8);
 				w9 = ts2_vat_status(c9);
 				free(tmp);
-				//End Addtions story #266
 				lock();
 				setDoubleParam(P_DmodRunTS2, dmodrunts2);
 				setDoubleParam(P_DmodRunLimTS2, dmodrunlimts2);
 				setDoubleParam(P_BeamDmodTS2, beamdmodts2);
 				setDoubleParam(P_DmodAnnLowTS2, dmodannlowts2);
-				//Addtions story #266
 				setStringParam(P_E1VAT, e1);
 				setStringParam(P_E2VAT, e2);
 				setStringParam(P_E3VAT, e3);
@@ -387,7 +386,13 @@ void isisbeamDriver::pollerThread()
 				setStringParam(P_W7VAT, w7);
 				setStringParam(P_W8VAT, w8);
 				setStringParam(P_W9VAT, w9);
-				//End Addtions story #266
+				setStringParam(P_UpdateTime, time_buffer);
+				setIntegerParam(P_UpdateTimeT, timer);
+				setStringParam(P_InstTS1, "ALF,CRISP,EMMA,ENGINX,GEM,HRPD,INES,IRIS,LOQ,MAPS,MARI,MERLIN,OSIRIS,PEARL,POLARIS,"
+				                          "PRISMA,ROTAX,SANDALS,SURF,SXD,TOSCA,VESUVIO");
+
+				setStringParam(P_InstTS2, "CHIPIR,INTER,LARMOR,LET,NIMROD,OFFSPEC,POLREF,SANS2D,WISH");
+				setIntegerParam(P_OsirisCryomag, 0);
 				callParamCallbacks();
 				unlock();
 			}
@@ -402,7 +407,7 @@ void isisbeamDriver::pollerThread()
 				timer = atol(tmp);
 				pstm = localtime(&timer);
 				free(tmp);
-				strftime(time_buffer, sizeof(time_buffer), "%d-%b-%Y %H:%M:%S", pstm);
+				strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%dT%H:%M:%S+0100", pstm);
 				tmp = xml_parse(buffer, "BEAMT"); beamts1 = atof(tmp); free(tmp);
 				tmp = xml_parse(buffer, "BEAMT2"); beamts2 = atof(tmp); free(tmp);
 				tmp = xml_parse(buffer, "BEAME1"); beamepb1 = atof(tmp); free(tmp);
@@ -421,12 +426,6 @@ void isisbeamDriver::pollerThread()
 				offts1 = xml_parse(buffer, "TS1OFF");
 				onts2 = xml_parse(buffer, "TS2ON");
 				offts2 = xml_parse(buffer, "TS2OFF");
-				// Reformat date/time strings
-				onts1 = parse_datetime(onts1);
-				offts1 = parse_datetime(offts1);
-				onts2 = parse_datetime(onts2);
-				offts2 = parse_datetime(offts2);
-				//Addtions story #266
 				tmp = xml_parse(buffer, "SHUTE");
 				sscanf(tmp, "%lu %lu %lu %lu %lu %lu %lu %lu %lu", &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9);
 				e1 = ts2_shutter_status(c1);
@@ -493,7 +492,6 @@ void isisbeamDriver::pollerThread()
 				s8 = ts1_shutter_status(v, 8);
 				s9 = ts1_shutter_status(v, 9);				
 				free(tmp);
-				//End Addtions story #266
 				lock();
 				epicsTimeFromTime_t(&m_timestamp, timer);
 				setDoubleParam(P_BeamTS1, beamts1);
@@ -518,7 +516,6 @@ void isisbeamDriver::pollerThread()
 				free(offts1);
 				free(onts2);
 				free(offts2);
-				//Addtions story #266
 				setStringParam(P_E1Shut, e1);
 				setStringParam(P_E2Shut, e2);
 				setStringParam(P_E3Shut, e3);
@@ -573,7 +570,8 @@ void isisbeamDriver::pollerThread()
 				setStringParam(P_S7Shut, s7);
 				setStringParam(P_S8Shut, s8);
 				setStringParam(P_S9Shut, s9);
-				//End Addtions story #266
+				setStringParam(P_UpdateTime, time_buffer);
+				setIntegerParam(P_UpdateTimeT, timer);
 				callParamCallbacks();
 				unlock();
 			}
@@ -584,28 +582,6 @@ void isisbeamDriver::pollerThread()
 		}
 	}
 }	
-
-#define DATE_TIME_LEN 20
-#define TIME_START_POSN 11
-#define DAY_START_POSN 8
-#define MON_START_POSN 5
-
-// Reformat date/time strings
-// NB Value is freed and a newly allocated string returned, which the caller should free.
-char *isisbeamDriver::parse_datetime(char *value) 
-{
-	// Convert YYYY-MM-DDThh:mm:ss to hh:mm:ss DD:MM:YYYY
-	char *newVal = (char *)calloc(DATE_TIME_LEN, sizeof(char));
-	strcpy(newVal, &value[TIME_START_POSN]); // hh:mm:ss
-	strcat(newVal, " ");
-	strncat(newVal, &value[DAY_START_POSN], 2); // DD
-	strcat(newVal, "-");
-	strncat(newVal, &value[MON_START_POSN], 2); // MM
-	strcat(newVal, "-");
-	strncat(newVal, value, 4); // YYYY
-	free(value);
-	return newVal;
-}
 
 extern "C" {
 

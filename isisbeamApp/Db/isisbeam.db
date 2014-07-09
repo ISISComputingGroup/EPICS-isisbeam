@@ -90,8 +90,6 @@ record(ai, "$(P)TG:TS1:MOD:HDGN:TEMP")
    field(HSV, "MINOR")
 }
 
-#Additions during story 227
-
 record(ai, "$(P)AC:SYNCH:BEAM:CURR")
 {
    field(DTYP, "asynFloat64")
@@ -137,6 +135,52 @@ record(ai, "$(P)AC:TS1:FREQ")
    field(LSV, "MINOR")
 }
 
+record(waveform, "$(P)TG:TS1:INST")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)INSTTS1")
+   field(SCAN, "I/O Intr")
+   field(SDIS, "$(P)ISISBEAM:DISABLE")
+   field(FTVL, "CHAR")
+   field(NELM, "512")
+}
+
+record(waveform, "$(P)TG:TS2:INST")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)INSTTS2")
+   field(SCAN, "I/O Intr")
+   field(SDIS, "$(P)ISISBEAM:DISABLE")
+   field(FTVL, "CHAR")
+   field(NELM, "512")
+}
+
+record(waveform, "$(P)TG:UPDTIME")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn(isisbeam,0,0)UPDTIME")
+   field(SCAN, "I/O Intr")
+   field(SDIS, "$(P)ISISBEAM:DISABLE")
+   field(FTVL, "CHAR")
+   field(NELM, "512")
+}
+
+record(longin, "$(P)TG:UPDTIMET")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn(isisbeam,0,0)UPDTIMET")
+   field(SCAN, "I/O Intr")
+   field(SDIS, "$(P)ISISBEAM:DISABLE")
+}
+
+record(bi, "$(P)IN:OSIRIS:CRYOMAG")
+{
+   field(SDIS, "$(P)ISISBEAM:DISABLE")
+   field(ZNAM, "Idle")
+   field(ONAM, "Rising")
+   field(VAL, "0")
+}
+
 record(ai, "$(P)AC:TS1:BEAM:TOTAL")
 {
    field(DTYP, "asynFloat64")
@@ -146,6 +190,18 @@ record(ai, "$(P)AC:TS1:BEAM:TOTAL")
    field(SDIS, "$(P)ISISBEAM:DISABLE")
    field(DESC, "TS1 Total microamps since midnight")
    field(EGU, "uAH")
+}
+
+record(ai, "$(P)AC:TS1:BEAM:YEST")
+{
+#   field(DTYP, "asynFloat64")
+#   field(INP,  "@asyn(isisbeam,0,0)TOTALTS1")
+   field(PREC, "3")
+#   field(SCAN, "I/O Intr")
+   field(SDIS, "$(P)ISISBEAM:DISABLE")
+   field(DESC, "TS1 Total microamps yesderday")
+   field(EGU, "uAH")
+   field(VAL, "11.0")
 }
 
 record(ai, "$(P)AC:TS2:FREQ")
@@ -172,6 +228,18 @@ record(ai, "$(P)AC:TS2:BEAM:TOTAL")
    field(SDIS, "$(P)ISISBEAM:DISABLE")
    field(DESC, "TS2 Total microamps since midnight")
    field(EGU, "uAH")
+}
+
+record(ai, "$(P)AC:TS2:BEAM:YEST")
+{
+#   field(DTYP, "asynFloat64")
+#   field(INP,  "@asyn(isisbeam,0,0)TOTALTS1")
+   field(PREC, "3")
+#   field(SCAN, "I/O Intr")
+   field(SDIS, "$(P)ISISBEAM:DISABLE")
+   field(DESC, "TS2 Total microamps yesderday")
+   field(EGU, "uAH")
+   field(VAL, "21.0")
 }
 
 record(ai, "$(P)AC:TS2:DMOD:METH:TEMP")
