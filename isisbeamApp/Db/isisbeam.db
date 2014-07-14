@@ -155,14 +155,12 @@ record(waveform, "$(P)TG:TS2:INST")
    field(NELM, "512")
 }
 
-record(waveform, "$(P)TG:UPDTIME")
+record(stringin, "$(P)TG:UPDTIME")
 {
    field(DTYP, "asynOctetRead")
    field(INP,  "@asyn(isisbeam,0,0)UPDTIME")
    field(SCAN, "I/O Intr")
    field(SDIS, "$(P)ISISBEAM:DISABLE")
-   field(FTVL, "CHAR")
-   field(NELM, "512")
 }
 
 record(longin, "$(P)TG:UPDTIMET")
@@ -176,7 +174,7 @@ record(longin, "$(P)TG:UPDTIMET")
 record(bi, "$(P)IN:OSIRIS:CRYOMAG")
 {
    field(SDIS, "$(P)ISISBEAM:DISABLE")
-   field(ZNAM, "Idle")
+   field(ZNAM, "Idle State")
    field(ONAM, "Rising")
    field(VAL, "0")
 }
