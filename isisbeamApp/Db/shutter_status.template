@@ -1,3 +1,10 @@
+# % macro, P, device prefix
+# % macro, BL, beamline
+# % macro, INST, instrument on this beamline
+# % macro, INST2, second instrument on this beamline
+# % macro, INST3, third instrument on this beamline
+# % macro, IFINST2, indicates second instrument on this beamline
+# % macro, IFINST3, indicates third instrument on this beamline
 
 record(stringin, "$(P)BL:$(BL):SHUTTER:STATUS")
 {
