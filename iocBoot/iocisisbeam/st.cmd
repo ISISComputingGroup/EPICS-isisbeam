@@ -1,8 +1,8 @@
 #!../../bin/windows-x64/isisbeam
 
-## You may have to change isisbeam to something else
-## everywhere it appears in this file
-
+## @file
+## IOC startup file for beam logger.
+## Provides PVs for status of ISIS beam and accelerator 
 < envPaths
 
 epicsEnvSet "IOCNAME" "$(P=$(MYPVPREFIX))"
@@ -11,16 +11,17 @@ epicsEnvSet "IOCSTATS_DB" "$(DEVIOCSTATS)/db/iocAdminSoft.db"
 cd ${TOP}
 
 ## Register all support components
-dbLoadDatabase "dbd/isisbeam.dbd"
+dbLoadDatabase("dbd/isisbeam.dbd")
 isisbeam_registerRecordDeviceDriver pdbbase
 
 ## configure IOC
 isisbeamConfigure("isisbeam")
 
-## Load record instances
+## Load record instances to define PVs
 dbLoadRecords("$(TOP)/db/isisbeam.db","P=$(IOCNAME)")
 dbLoadRecords("$(TOP)/db/shutter_mode.db","P=$(IOCNAME)")
 dbLoadRecords("$(TOP)/db/shutter_status.db","P=$(IOCNAME)")
+## VAT valve status
 dbLoadRecords("$(TOP)/db/vat.db","P=$(IOCNAME)")
 dbLoadRecords("$(IOCSTATS_DB)","IOC=$(IOCNAME)ISISBEAM")
 

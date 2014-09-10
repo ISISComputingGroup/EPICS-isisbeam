@@ -1,3 +1,6 @@
+## @file
+## Define modes for shutter
+
 # % macro, P, device prefix
 # % macro, BL, beamline
 # % macro, INST, instrument on this beamline
@@ -6,6 +9,7 @@
 # % macro, IFINST2, indicates second instrument on this beamline
 # % macro, IFINST3, indicates third instrument on this beamline
 
+## Mode of shutter on beamline
 record(stringin, "$(P)BL:$(BL):SHUTTER:MODE")
 {
    field(DTYP, "asynOctetRead")
@@ -15,6 +19,9 @@ record(stringin, "$(P)BL:$(BL):SHUTTER:MODE")
    field(DESC, "Shutter mode on beamline $(BL)")
 }
 
+## Alias of beamline shutter mode for instrument
 alias("$(P)BL:$(BL):SHUTTER:MODE","$(P)IN:$(INST):SHTR:MODE")
+## Alias of beamline shutter mode for instrument
 $(IFINST2)alias("$(P)BL:$(BL):SHUTTER:MODE","$(P)IN:$(INST2):SHTR:MODE")
+## Alias of beamline shutter mode for instrument
 $(IFINST3)alias("$(P)BL:$(BL):SHUTTER:MODE","$(P)IN:$(INST3):SHTR:MODE")

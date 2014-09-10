@@ -1,3 +1,6 @@
+## @file
+## Define VAT valve status for beamlines
+
 # % macro, P, device prefix
 # % macro, BL, beamline
 # % macro, INST, instrument on this beamline
@@ -6,6 +9,7 @@
 # % macro, IFINST2, indicates second instrument on this beamline
 # % macro, IFINST3, indicates third instrument on this beamline
 
+## Status of VAT value on beamline
 record(stringin, "$(P)BL:$(BL):VAT:STAT")
 {
    field(DTYP, "asynOctetRead")
@@ -15,6 +19,9 @@ record(stringin, "$(P)BL:$(BL):VAT:STAT")
    field(DESC, "VAT value status on beamline $(BL)")
 }
 
+## Alias of beamline VAT value for instrument
 alias("$(P)BL:$(BL):VAT:STAT","$(P)IN:$(INST):VAT:STAT")
+## Alias of beamline VAT value for instrument
 $(IFINST2)alias("$(P)BL:$(BL):VAT:STAT","$(P)IN:$(INST2):VAT:STAT")
+## Alias of beamline VAT value for instrument
 $(IFINST3)alias("$(P)BL:$(BL):VAT:STAT","$(P)IN:$(INST3):VAT:STAT")

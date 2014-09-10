@@ -1,6 +1,8 @@
 #ifndef ISISBEAMDRIVER_H
 #define ISISBEAMDRIVER_H
- 
+
+/// @file isisbeamDriver.h Header for ISIS beam driver
+
 #include "asynPortDriver.h"
 
 template <typename T>
@@ -22,6 +24,7 @@ struct asynItems<int>
 };
 
 
+/// Driver for ISIS beam
 class isisbeamDriver : public asynPortDriver 
 {
 public:
@@ -30,7 +33,7 @@ public:
     virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
                  
 private:
-    int P_BeamTS1; // double
+    int P_BeamTS1; ///< ASYN driver parameter index for TS1 beam current (double)
     int P_BeamTS2; // double
 	int P_MethaneTS1; // double
 	int P_HydrogenTS1; // double
@@ -139,7 +142,7 @@ private:
 
 #define NUM_ISISBEAM_PARAMS (&LAST_ISISBEAM_PARAM - &FIRST_ISISBEAM_PARAM + 1)
  
-#define P_BeamTS1String "BEAMTS1"
+#define P_BeamTS1String "BEAMTS1" ///< ASYN driver parameter name for TS1 beam current
 #define P_BeamTS2String "BEAMTS2"
 #define P_MethaneTS1String "METHTS1"
 #define P_HydrogenTS1String "HDGNTS1"

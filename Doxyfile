@@ -83,4 +83,4 @@ TAGFILES               =
 # ISIS: use the name format <iocname>_IOC.tags or <modulename>_SUPPORT.tags as appropriate 
 # ISIS: also use capitals except for .tags suffix
 
-GENERATE_TAGFILE       = MYDEV_IOC.tags
+GENERATE_TAGFILE       = ISISBEAM_IOC.tags

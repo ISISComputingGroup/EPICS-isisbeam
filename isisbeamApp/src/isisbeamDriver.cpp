@@ -26,6 +26,7 @@
 
 static epicsThreadOnceId onceId = EPICS_THREAD_ONCE_INIT;
 
+/// @file isisbeamDriver.cpp Driver for ISISBEAM
 
 //Copied from relay_server.c to format the shutter status info
 static char* ts2_shutter_status(int stat)
@@ -152,9 +153,8 @@ static void initCOM(void*)
 static const char *driverName="isisbeamDriver";
 
 
-/// Constructor for the lvDCOMDriver class.
+/// Constructor for the isisbeamDriver class.
 /// Calls constructor for the asynPortDriver base class.
-/// \param[in] dcomint DCOM interface pointer created by lvDCOMConfigure()
 /// \param[in] portName @copydoc initArg0
 isisbeamDriver::isisbeamDriver(const char *portName) 
    : asynPortDriver(portName, 
@@ -585,7 +585,7 @@ void isisbeamDriver::pollerThread()
 
 extern "C" {
 
-/// EPICS iocsh callable function to call constructor of lvDCOMInterface().
+/// EPICS iocsh callable function to call constructor of isisbeamDriver().
 /// \param[in] portName @copydoc initArg0
 int isisbeamConfigure(const char *portName)
 {
