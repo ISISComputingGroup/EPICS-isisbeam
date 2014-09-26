@@ -248,7 +248,7 @@ record(ai, "$(P)AC:TS2:BEAM:YEST")
    field(VAL, "21.0")
 }
 
-record(ai, "$(P)AC:TS2:DMOD:METH:TEMP")
+record(ai, "$(P)TG:TS2:DMOD:METH:TEMP")
 {
    field(DTYP, "asynFloat64")
    field(INP,  "@asyn(isisbeam,0,0)DEMETHTS2")
@@ -293,7 +293,7 @@ record(ai, "$(P)TG:TS2:CMOD:HDGN:TEMP")
    field(HSV, "MINOR")
 }
 
-record(ai, "$(P)AC:TS2:DMOD:RTIME:DUR")
+record(ai, "$(P)TG:TS2:DMOD:RTIME:DUR")
 {
    field(DTYP, "asynFloat64")
    field(INP,  "@asyn(isisbeam,0,0)DRUNTS2")
@@ -303,7 +303,7 @@ record(ai, "$(P)AC:TS2:DMOD:RTIME:DUR")
    field(EGU, "s")
 }
 
-record(ai, "$(P)AC:TS2:DMOD:RTLIM")
+record(ai, "$(P)TG:TS2:DMOD:RTLIM")
 {
    field(DTYP, "asynFloat64")
    field(INP,  "@asyn(isisbeam,0,0)DRLIMTS2")
@@ -313,7 +313,7 @@ record(ai, "$(P)AC:TS2:DMOD:RTLIM")
    field(EGU, "s")
 }
 
-record(ai, "$(P)AC:TS2:DMOD:BEAM")
+record(ai, "$(P)TG:TS2:DMOD:BEAM")
 {
    field(DTYP, "asynFloat64")
    field(INP,  "@asyn(isisbeam,0,0)BEAMDMODTS2")
@@ -375,28 +375,28 @@ record(calc, "$(P)AC:MUON:KICKR:ONCALC")
 	field(CALC, "A#0?1:0")
 }
 
-record(bi, "$(P)AC:TS2:DMOD:ANNPLOW:STAT")
+record(bi, "$(P)TG:TS2:DMOD:ANNPLOW:STAT")
 {
     field(DESC, "TS2 DMOD Methane Anneal Pressure Low")
 	field(DTYP, "Soft Channel")
-	field(INP, "$(P)AC:TS2:DMOD:ANCLC PP")
+	field(INP, "$(P)TG:TS2:DMOD:ANCLC PP")
 	field(ZNAM, "NO")
 	field(ONAM, "YES")
 }
 
-record(calc, "$(P)AC:TS2:DMOD:ANCLC")
+record(calc, "$(P)TG:TS2:DMOD:ANCLC")
 {
-	field(INPA, "$(P)AC:TS2:DMOD:ANN NPP")
+	field(INPA, "$(P)TG:TS2:DMOD:ANN NPP")
 	field(CALC, "A>0?1:0")
 }
 
-record(ai, "$(P)AC:TS2:DMOD:ANN")
+record(ai, "$(P)TG:TS2:DMOD:ANN")
 {
    field(DTYP, "asynFloat64")
    field(INP,  "@asyn(isisbeam,0,0)DMODANNLOWTS2")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
-   field(FLNK, "$(P)AC:TS2:DMOD:ANNPLOW:STAT")
+   field(FLNK, "$(P)TG:TS2:DMOD:ANNPLOW:STAT")
    field(SDIS, "$(P)ISISBEAM:DISABLE")
 }
 
@@ -435,5 +435,6 @@ record(stringin, "$(P)AC:TS2:BEAMOFF:TIME")
 # Renamed certain PVs for correctness, corrected CSS screen, but just in case have aliased as well
 alias("$(P)TG:TS2:CMOD:METH:TEMP","$(P)AC:TS2:CMOD:METH:TEMP")
 alias("$(P)TG:TS2:CMOD:HDGN:TEMP","$(P)AC:TS2:CMOD:HDGN:TEMP")
+alias("$(P)TG:TS2:DMOD:METH:TEMP","$(P)AC:TS2:DMOD:METH:TEMP")
 alias("$(P)BL:MUON:KICKR","$(P)AC:MUON:KICKR")
 alias("$(P)BL:MUON:KICKR:STAT","$(P)AC:MUON:KICKR:STAT")
