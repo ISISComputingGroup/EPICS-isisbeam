@@ -5,6 +5,8 @@
 #include <math.h>
 #include <exception>
 #include <iostream>
+#include <map>
+#include <string>
 
 #include <epicsTypes.h>
 #include <epicsTime.h>
@@ -152,6 +154,7 @@ static void initCOM(void*)
 
 static const char *driverName="isisbeamDriver";
 
+#define MAX_ASYN_BL_PARAMS	300  ///< needs to be large enough to cover beamline parameters created dynamically in  isisbeamDriver()
 
 /// Constructor for the isisbeamDriver class.
 /// Calls constructor for the asynPortDriver base class.
@@ -159,7 +162,7 @@ static const char *driverName="isisbeamDriver";
 isisbeamDriver::isisbeamDriver(const char *portName) 
    : asynPortDriver(portName, 
                     0, /* maxAddr */ 
-                    NUM_ISISBEAM_PARAMS,
+                    MAX_ASYN_BL_PARAMS,
                     asynInt32Mask | asynFloat64Mask | asynOctetMask | asynDrvUserMask, /* Interface mask */
                     asynInt32Mask | asynFloat64Mask | asynOctetMask,  /* Interrupt mask */
                     ASYN_CANBLOCK, /* asynFlags.  This driver can block but it is not multi-device */
@@ -189,78 +192,6 @@ isisbeamDriver::isisbeamDriver(const char *portName)
 	createParam(P_DmodRunLimTS2String, asynParamFloat64, &P_DmodRunLimTS2);
 	createParam(P_BeamDmodTS2String, asynParamFloat64, &P_BeamDmodTS2);
 	createParam(P_DmodAnnLowTS2String, asynParamFloat64, &P_DmodAnnLowTS2);
-	createParam(P_N1ShutString, asynParamOctet, &P_N1Shut);
-	createParam(P_N2ShutString, asynParamOctet, &P_N2Shut);
-	createParam(P_N3ShutString, asynParamOctet, &P_N3Shut);
-	createParam(P_N4ShutString, asynParamOctet, &P_N4Shut);
-	createParam(P_N5ShutString, asynParamOctet, &P_N5Shut);
-	createParam(P_N6ShutString, asynParamOctet, &P_N6Shut);
-	createParam(P_N7ShutString, asynParamOctet, &P_N7Shut);
-	createParam(P_N8ShutString, asynParamOctet, &P_N8Shut);
-	createParam(P_N9ShutString, asynParamOctet, &P_N9Shut);
-	createParam(P_S1ShutString, asynParamOctet, &P_S1Shut);
-	createParam(P_S2ShutString, asynParamOctet, &P_S2Shut);
-	createParam(P_S3ShutString, asynParamOctet, &P_S3Shut);
-	createParam(P_S4ShutString, asynParamOctet, &P_S4Shut);
-	createParam(P_S5ShutString, asynParamOctet, &P_S5Shut);
-	createParam(P_S6ShutString, asynParamOctet, &P_S6Shut);
-	createParam(P_S7ShutString, asynParamOctet, &P_S7Shut);
-	createParam(P_S8ShutString, asynParamOctet, &P_S8Shut);
-	createParam(P_S9ShutString, asynParamOctet, &P_S9Shut);
-	createParam(P_E1ShutString, asynParamOctet, &P_E1Shut);
-	createParam(P_E2ShutString, asynParamOctet, &P_E2Shut);
-	createParam(P_E3ShutString, asynParamOctet, &P_E3Shut);
-	createParam(P_E4ShutString, asynParamOctet, &P_E4Shut);
-	createParam(P_E5ShutString, asynParamOctet, &P_E5Shut);
-	createParam(P_E6ShutString, asynParamOctet, &P_E6Shut);
-	createParam(P_E7ShutString, asynParamOctet, &P_E7Shut);
-	createParam(P_E8ShutString, asynParamOctet, &P_E8Shut);
-	createParam(P_E9ShutString, asynParamOctet, &P_E9Shut);
-	createParam(P_W1ShutString, asynParamOctet, &P_W1Shut);
-	createParam(P_W2ShutString, asynParamOctet, &P_W2Shut);
-	createParam(P_W3ShutString, asynParamOctet, &P_W3Shut);
-	createParam(P_W4ShutString, asynParamOctet, &P_W4Shut);
-	createParam(P_W5ShutString, asynParamOctet, &P_W5Shut);
-	createParam(P_W6ShutString, asynParamOctet, &P_W6Shut);
-	createParam(P_W7ShutString, asynParamOctet, &P_W7Shut);
-	createParam(P_W8ShutString, asynParamOctet, &P_W8Shut);
-	createParam(P_W9ShutString, asynParamOctet, &P_W9Shut);
-	createParam(P_E1VATString, asynParamOctet, &P_E1VAT);
-	createParam(P_E2VATString, asynParamOctet, &P_E2VAT);
-	createParam(P_E3VATString, asynParamOctet, &P_E3VAT);
-	createParam(P_E4VATString, asynParamOctet, &P_E4VAT);
-	createParam(P_E5VATString, asynParamOctet, &P_E5VAT);
-	createParam(P_E6VATString, asynParamOctet, &P_E6VAT);
-	createParam(P_E7VATString, asynParamOctet, &P_E7VAT);
-	createParam(P_E8VATString, asynParamOctet, &P_E8VAT);
-	createParam(P_E9VATString, asynParamOctet, &P_E9VAT);
-	createParam(P_W1VATString, asynParamOctet, &P_W1VAT);
-	createParam(P_W2VATString, asynParamOctet, &P_W2VAT);
-	createParam(P_W3VATString, asynParamOctet, &P_W3VAT);
-	createParam(P_W4VATString, asynParamOctet, &P_W4VAT);
-	createParam(P_W5VATString, asynParamOctet, &P_W5VAT);
-	createParam(P_W6VATString, asynParamOctet, &P_W6VAT);
-	createParam(P_W7VATString, asynParamOctet, &P_W7VAT);
-	createParam(P_W8VATString, asynParamOctet, &P_W8VAT);
-	createParam(P_W9VATString, asynParamOctet, &P_W9VAT);
-	createParam(P_E1SModeString, asynParamOctet, &P_E1SMode);
-	createParam(P_E2SModeString, asynParamOctet, &P_E2SMode);
-	createParam(P_E3SModeString, asynParamOctet, &P_E3SMode);
-	createParam(P_E4SModeString, asynParamOctet, &P_E4SMode);
-	createParam(P_E5SModeString, asynParamOctet, &P_E5SMode);
-	createParam(P_E6SModeString, asynParamOctet, &P_E6SMode);
-	createParam(P_E7SModeString, asynParamOctet, &P_E7SMode);
-	createParam(P_E8SModeString, asynParamOctet, &P_E8SMode);
-	createParam(P_E9SModeString, asynParamOctet, &P_E9SMode);
-	createParam(P_W1SModeString, asynParamOctet, &P_W1SMode);
-	createParam(P_W2SModeString, asynParamOctet, &P_W2SMode);
-	createParam(P_W3SModeString, asynParamOctet, &P_W3SMode);
-	createParam(P_W4SModeString, asynParamOctet, &P_W4SMode);
-	createParam(P_W5SModeString, asynParamOctet, &P_W5SMode);
-	createParam(P_W6SModeString, asynParamOctet, &P_W6SMode);
-	createParam(P_W7SModeString, asynParamOctet, &P_W7SMode);
-	createParam(P_W8SModeString, asynParamOctet, &P_W8SMode);
-	createParam(P_W9SModeString, asynParamOctet, &P_W9SMode);
 	createParam(P_OnTS1String, asynParamOctet, &P_OnTS1);
 	createParam(P_OffTS1String, asynParamOctet, &P_OffTS1);
 	createParam(P_OnTS2String, asynParamOctet, &P_OnTS2);
@@ -270,7 +201,30 @@ isisbeamDriver::isisbeamDriver(const char *portName)
 	createParam(P_OsirisCryomagString, asynParamInt32, &P_OsirisCryomag);
 	createParam(P_UpdateTimeString, asynParamOctet, &P_UpdateTime);
 	createParam(P_UpdateTimeTString, asynParamInt32, &P_UpdateTimeT);
-
+	// create beamline specific parameters (shutter status, shutter mode, VAT valve)
+	// assigns a default "unavailable" value to each as not all are available on every beamline
+	// make sure MAX_ASYN_BL_PARAMS is big enough
+	const char* axes = "NSWE";
+	char buff[32];
+	int id;
+	for(int i=1; i<=9; ++i)
+	{
+	    for(int j=0; j<4; ++j)
+		{
+			sprintf(buff, "SHUT_%c%d", axes[j], i);
+			createParam(buff, asynParamOctet, &id);
+			setStringParam(id, "N/A");
+			m_blparams[buff] = id;
+			sprintf(buff, "VAT_%c%d", axes[j], i);
+			createParam(buff, asynParamOctet, &id);
+			setStringParam(id, "N/A");
+			m_blparams[buff] = id;
+			sprintf(buff, "SMODE_%c%d", axes[j], i);
+			createParam(buff, asynParamOctet, &id);
+			setStringParam(id, "N/A");
+			m_blparams[buff] = id;
+		}
+	}
     // Create the thread for background tasks (not used at present, could be used for I/O intr scanning) 
     if (epicsThreadCreate("isisbeamPoller",
                           epicsThreadPriorityMedium,
@@ -287,6 +241,7 @@ asynStatus isisbeamDriver::readFloat64(asynUser *pasynUser, epicsFloat64 *value)
 //    pasynUser->timeStamp = m_timestamp;
     return asynPortDriver::readFloat64(pasynUser, value);
 }
+
 
 void isisbeamDriver::pollerThreadC(void* arg)
 { 
@@ -368,30 +323,30 @@ void isisbeamDriver::pollerThread()
 				setDoubleParam(P_DmodRunLimTS2, dmodrunlimts2);
 				setDoubleParam(P_BeamDmodTS2, beamdmodts2);
 				setDoubleParam(P_DmodAnnLowTS2, dmodannlowts2);
-				setStringParam(P_E1VAT, e1);
-				setStringParam(P_E2VAT, e2);
-				setStringParam(P_E3VAT, e3);
-				setStringParam(P_E4VAT, e4);
-				setStringParam(P_E5VAT, e5);
-				setStringParam(P_E6VAT, e6);
-				setStringParam(P_E7VAT, e7);
-				setStringParam(P_E8VAT, e8);
-				setStringParam(P_E9VAT, e9);
-				setStringParam(P_W1VAT, w1);
-				setStringParam(P_W2VAT, w2);
-				setStringParam(P_W3VAT, w3);
-				setStringParam(P_W4VAT, w4);
-				setStringParam(P_W5VAT, w5);
-				setStringParam(P_W6VAT, w6);
-				setStringParam(P_W7VAT, w7);
-				setStringParam(P_W8VAT, w8);
-				setStringParam(P_W9VAT, w9);
+				setStringParam(m_blparams["VAT_E1"], e1);
+				setStringParam(m_blparams["VAT_E2"], e2);
+				setStringParam(m_blparams["VAT_E3"], e3);
+				setStringParam(m_blparams["VAT_E4"], e4);
+				setStringParam(m_blparams["VAT_E5"], e5);
+				setStringParam(m_blparams["VAT_E6"], e6);
+				setStringParam(m_blparams["VAT_E7"], e7);
+				setStringParam(m_blparams["VAT_E8"], e8);
+				setStringParam(m_blparams["VAT_E9"], e9);
+				setStringParam(m_blparams["VAT_W1"], w1);
+				setStringParam(m_blparams["VAT_W2"], w2);
+				setStringParam(m_blparams["VAT_W3"], w3);
+				setStringParam(m_blparams["VAT_W4"], w4);
+				setStringParam(m_blparams["VAT_W5"], w5);
+				setStringParam(m_blparams["VAT_W6"], w6);
+				setStringParam(m_blparams["VAT_W7"], w7);
+				setStringParam(m_blparams["VAT_W8"], w8);
+				setStringParam(m_blparams["VAT_W9"], w9);
 				setStringParam(P_UpdateTime, time_buffer);
 				setIntegerParam(P_UpdateTimeT, timer);
 				setStringParam(P_InstTS1, "ALF,CRISP,EMMA,ENGINX,GEM,HRPD,INES,IRIS,LOQ,MAPS,MARI,MERLIN,OSIRIS,PEARL,POLARIS,"
 				                          "PRISMA,ROTAX,SANDALS,SURF,SXD,TOSCA,VESUVIO");
 
-				setStringParam(P_InstTS2, "CHIPIR,INTER,LARMOR,LET,NIMROD,OFFSPEC,POLREF,SANS2D,WISH");
+				setStringParam(P_InstTS2, "CHIPIR,IMAT,INTER,LARMOR,LET,NIMROD,OFFSPEC,POLREF,SANS2D,WISH,ZOOM");
 				setIntegerParam(P_OsirisCryomag, 0);
 				callParamCallbacks();
 				unlock();
@@ -516,60 +471,60 @@ void isisbeamDriver::pollerThread()
 				free(offts1);
 				free(onts2);
 				free(offts2);
-				setStringParam(P_E1Shut, e1);
-				setStringParam(P_E2Shut, e2);
-				setStringParam(P_E3Shut, e3);
-				setStringParam(P_E4Shut, e4);
-				setStringParam(P_E5Shut, e5);
-				setStringParam(P_E6Shut, e6);
-				setStringParam(P_E7Shut, e7);
-				setStringParam(P_E8Shut, e8);
-				setStringParam(P_E9Shut, e9);
-				setStringParam(P_W1Shut, w1);
-				setStringParam(P_W2Shut, w2);
-				setStringParam(P_W3Shut, w3);
-				setStringParam(P_W4Shut, w4);
-				setStringParam(P_W5Shut, w5);
-				setStringParam(P_W6Shut, w6);
-				setStringParam(P_W7Shut, w7);
-				setStringParam(P_W8Shut, w8);
-				setStringParam(P_W9Shut, w9);
-				setStringParam(P_E1SMode, em1);
-				setStringParam(P_E2SMode, em2);
-				setStringParam(P_E3SMode, em3);
-				setStringParam(P_E4SMode, em4);
-				setStringParam(P_E5SMode, em5);
-				setStringParam(P_E6SMode, em6);
-				setStringParam(P_E7SMode, em7);
-				setStringParam(P_E8SMode, em8);
-				setStringParam(P_E9SMode, em9);
-				setStringParam(P_W1SMode, wm1);
-				setStringParam(P_W2SMode, wm2);
-				setStringParam(P_W3SMode, wm3);
-				setStringParam(P_W4SMode, wm4);
-				setStringParam(P_W5SMode, wm5);
-				setStringParam(P_W6SMode, wm6);
-				setStringParam(P_W7SMode, wm7);
-				setStringParam(P_W8SMode, wm8);
-				setStringParam(P_W9SMode, wm9);
-				setStringParam(P_N1Shut, n1);
-				setStringParam(P_N2Shut, n2);
-				setStringParam(P_N3Shut, n3);
-				setStringParam(P_N4Shut, n4);
-				setStringParam(P_N5Shut, n5);
-				setStringParam(P_N6Shut, n6);
-				setStringParam(P_N7Shut, n7);
-				setStringParam(P_N8Shut, n8);
-				setStringParam(P_N9Shut, n9);
-				setStringParam(P_S1Shut, s1);
-				setStringParam(P_S2Shut, s2);
-				setStringParam(P_S3Shut, s3);
-				setStringParam(P_S4Shut, s4);
-				setStringParam(P_S5Shut, s5);
-				setStringParam(P_S6Shut, s6);
-				setStringParam(P_S7Shut, s7);
-				setStringParam(P_S8Shut, s8);
-				setStringParam(P_S9Shut, s9);
+				setStringParam(m_blparams["SHUT_N1"], n1);
+				setStringParam(m_blparams["SHUT_N2"], n2);
+				setStringParam(m_blparams["SHUT_N3"], n3);
+				setStringParam(m_blparams["SHUT_N4"], n4);
+				setStringParam(m_blparams["SHUT_N5"], n5);
+				setStringParam(m_blparams["SHUT_N6"], n6);
+				setStringParam(m_blparams["SHUT_N7"], n7);
+				setStringParam(m_blparams["SHUT_N8"], n8);
+				setStringParam(m_blparams["SHUT_N9"], n9);
+				setStringParam(m_blparams["SHUT_S1"], s1);
+				setStringParam(m_blparams["SHUT_S2"], s2);
+				setStringParam(m_blparams["SHUT_S3"], s3);
+				setStringParam(m_blparams["SHUT_S4"], s4);
+				setStringParam(m_blparams["SHUT_S5"], s5);
+				setStringParam(m_blparams["SHUT_S6"], s6);
+				setStringParam(m_blparams["SHUT_S7"], s7);
+				setStringParam(m_blparams["SHUT_S8"], s8);
+				setStringParam(m_blparams["SHUT_S9"], s9);
+				setStringParam(m_blparams["SHUT_E1"], e1);
+				setStringParam(m_blparams["SHUT_E2"], e2);
+				setStringParam(m_blparams["SHUT_E3"], e3);
+				setStringParam(m_blparams["SHUT_E4"], e4);
+				setStringParam(m_blparams["SHUT_E5"], e5);
+				setStringParam(m_blparams["SHUT_E6"], e6);
+				setStringParam(m_blparams["SHUT_E7"], e7);
+				setStringParam(m_blparams["SHUT_E8"], e8);
+				setStringParam(m_blparams["SHUT_E9"], e9);
+				setStringParam(m_blparams["SHUT_W1"], w1);
+				setStringParam(m_blparams["SHUT_W2"], w2);
+				setStringParam(m_blparams["SHUT_W3"], w3);
+				setStringParam(m_blparams["SHUT_W4"], w4);
+				setStringParam(m_blparams["SHUT_W5"], w5);
+				setStringParam(m_blparams["SHUT_W6"], w6);
+				setStringParam(m_blparams["SHUT_W7"], w7);
+				setStringParam(m_blparams["SHUT_W8"], w8);
+				setStringParam(m_blparams["SHUT_W9"], w9);
+				setStringParam(m_blparams["SMODE_E1"], em1);
+				setStringParam(m_blparams["SMODE_E2"], em2);
+				setStringParam(m_blparams["SMODE_E3"], em3);
+				setStringParam(m_blparams["SMODE_E4"], em4);
+				setStringParam(m_blparams["SMODE_E5"], em5);
+				setStringParam(m_blparams["SMODE_E6"], em6);
+				setStringParam(m_blparams["SMODE_E7"], em7);
+				setStringParam(m_blparams["SMODE_E8"], em8);
+				setStringParam(m_blparams["SMODE_E9"], em9);
+				setStringParam(m_blparams["SMODE_W1"], wm1);
+				setStringParam(m_blparams["SMODE_W2"], wm2);
+				setStringParam(m_blparams["SMODE_W3"], wm3);
+				setStringParam(m_blparams["SMODE_W4"], wm4);
+				setStringParam(m_blparams["SMODE_W5"], wm5);
+				setStringParam(m_blparams["SMODE_W6"], wm6);
+				setStringParam(m_blparams["SMODE_W7"], wm7);
+				setStringParam(m_blparams["SMODE_W8"], wm8);
+				setStringParam(m_blparams["SMODE_W9"], wm9);
 				setStringParam(P_UpdateTime, time_buffer);
 				setIntegerParam(P_UpdateTimeT, timer);
 				callParamCallbacks();

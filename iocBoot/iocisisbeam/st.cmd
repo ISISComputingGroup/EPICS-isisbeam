@@ -19,10 +19,7 @@ isisbeamConfigure("isisbeam")
 
 ## Load record instances to define PVs
 dbLoadRecords("$(TOP)/db/isisbeam.db","P=$(IOCNAME)")
-dbLoadRecords("$(TOP)/db/shutter_mode.db","P=$(IOCNAME)")
-dbLoadRecords("$(TOP)/db/shutter_status.db","P=$(IOCNAME)")
-## VAT valve status
-dbLoadRecords("$(TOP)/db/vat.db","P=$(IOCNAME)")
+dbLoadRecords("$(TOP)/db/beamline.db","P=$(IOCNAME)")
 dbLoadRecords("$(IOCSTATS_DB)","IOC=$(IOCNAME)ISISBEAM")
 
 cd ${TOP}/iocBoot/${IOC}

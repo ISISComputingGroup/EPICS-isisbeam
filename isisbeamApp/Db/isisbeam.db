@@ -30,6 +30,9 @@ record(ai, "$(P)AC:TS1:BEAM:CURR")
    field(LOPR, "0")
    field(LOW, "1")
    field(LSV, "MINOR")
+#   field(SIOL, "120")
+#   field(SIML, "$(P)ISISBEAM:SIMULATE")
+#   field(SIMS, "MAJOR")  
 }
 
 ## TS2 Beam current
