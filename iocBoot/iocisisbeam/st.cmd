@@ -5,8 +5,11 @@
 ## Provides PVs for status of ISIS beam and accelerator 
 < envPaths
 
-epicsEnvSet "IOCNAME" "$(P=$(MYPVPREFIX))"
+epicsEnvSet "IOCNAME" "ISISBEAM_01"
 epicsEnvSet "IOCSTATS_DB" "$(DEVIOCSTATS)/db/iocAdminSoft.db"
+
+# on main server MYPVPREFIX will be ""
+epicsEnvSet "PVROOT" "$(MYPVPREFIX)"
 
 cd ${TOP}
 
@@ -18,9 +21,9 @@ isisbeam_registerRecordDeviceDriver pdbbase
 isisbeamConfigure("isisbeam")
 
 ## Load record instances to define PVs
-dbLoadRecords("$(TOP)/db/isisbeam.db","P=$(IOCNAME)")
-dbLoadRecords("$(TOP)/db/beamline.db","P=$(IOCNAME)")
-dbLoadRecords("$(IOCSTATS_DB)","IOC=$(IOCNAME)ISISBEAM")
+dbLoadRecords("$(TOP)/db/isisbeam.db","P=$(PVROOT)")
+dbLoadRecords("$(TOP)/db/beamline.db","P=$(PVROOT)")
+dbLoadRecords("$(IOCSTATS_DB)","IOC=$(PVROOT)CS:IOC:$(IOCNAME):DEVIOS")
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit
