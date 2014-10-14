@@ -343,7 +343,7 @@ void isisbeamDriver::pollerThread()
 				setStringParam(m_blparams["VAT_W9"], w9);
 				setStringParam(P_UpdateTime, time_buffer);
 				setIntegerParam(P_UpdateTimeT, timer);
-				setStringParam(P_InstTS1, "ALF,CRISP,EMMA,ENGINX,GEM,HRPD,INES,IRIS,LOQ,MAPS,MARI,MERLIN,OSIRIS,PEARL,POLARIS,"
+				setStringParam(P_InstTS1, "ALF,ARGUS,CHRONUS,CRISP,EMMA,EMU,ENGINX,EVS,GEM,HIFI,HRPD,INES,IRIS,LOQ,MAPS,MARI,MERLIN,MUSR,OSIRIS,PEARL,POLARIS,"
 				                          "PRISMA,ROTAX,SANDALS,SURF,SXD,TOSCA,VESUVIO");
 
 				setStringParam(P_InstTS2, "CHIPIR,IMAT,INTER,LARMOR,LET,NIMROD,OFFSPEC,POLREF,SANS2D,WISH,ZOOM");
