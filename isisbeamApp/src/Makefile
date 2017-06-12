@@ -31,6 +31,7 @@ DBD += isisbeam.dbd
 
 # isisbeam.dbd will be made up from these files:
 isisbeam_DBD += base.dbd
+isisbeam_DBD += asyn.dbd
 
 # Include dbd files from all support applications:
 isisbeam_DBD += devIocStats.dbd
